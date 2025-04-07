@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="css/search.css">
     <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/notifications.css">
     <style>
         /* 既存のスタイル */
         :root {
@@ -939,18 +940,24 @@
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-messaging-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-firestore-compat.js"></script>
     
     <script src="js/search.js"></script>
     <script src="js/auth.js"></script>
+    <script src="js/notifications.js"></script>
     <script>
         const searchSystem = new SearchSystem();
         const authSystem = new AuthSystem();
+        const notificationSystem = new NotificationSystem();
 
         // 認証状態の変更を監視
-        document.addEventListener('authStateChanged', (e) => {
+        document.addEventListener('authStateChanged', async (e) => {
             const user = e.detail.user;
             if (user) {
                 console.log('ログインしました:', user.displayName);
+                // 通知の許可を要求
+                await notificationSystem.requestPermission();
             } else {
                 console.log('ログアウトしました');
             }

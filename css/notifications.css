@@ -1,0 +1,253 @@
+.notification-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.notification-center {
+    position: fixed;
+    top: 60px;
+    right: -320px;
+    width: 320px;
+    height: calc(100vh - 60px);
+    background: white;
+    box-shadow: -2px 0 4px rgba(0,0,0,0.1);
+    transition: right 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+}
+
+.notification-center.visible {
+    right: 0;
+}
+
+.notification-header {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.notification-header i {
+    margin-right: 0.5rem;
+    color: var(--primary-color);
+}
+
+.notification-settings-button {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.notification-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+}
+
+.notification-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 1rem;
+    border-radius: 8px;
+    background: #f8f9fa;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s;
+}
+
+.notification-item.read {
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+.notification-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+}
+
+.notification-content {
+    flex: 1;
+}
+
+.notification-content h4 {
+    margin: 0 0 0.25rem;
+    color: var(--text-color);
+}
+
+.notification-content p {
+    margin: 0;
+    color: #666;
+    font-size: 0.875rem;
+}
+
+.notification-content time {
+    display: block;
+    color: #999;
+    font-size: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.mark-as-read {
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    padding: 0.5rem;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.notification-item:hover .mark-as-read {
+    opacity: 1;
+}
+
+.notification-toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: flex-start;
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    transform: translateX(120%);
+    transition: transform 0.3s;
+    z-index: 1001;
+}
+
+.notification-toast.visible {
+    transform: translateX(0);
+}
+
+.close-notification {
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    padding: 0.5rem;
+    margin: -0.5rem -0.5rem -0.5rem 0.5rem;
+}
+
+.notification-settings-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+    z-index: 1002;
+}
+
+.notification-settings-modal.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    width: 90%;
+    max-width: 500px;
+    background: white;
+    border-radius: 8px;
+    padding: 2rem;
+    transform: scale(0.9);
+    transition: transform 0.3s;
+}
+
+.notification-settings-modal.visible .modal-content {
+    transform: scale(1);
+}
+
+.settings-list {
+    margin: 1.5rem 0;
+}
+
+.setting-item {
+    margin-bottom: 1rem;
+}
+
+.setting-item label {
+    display: flex;
+    align-items: center;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.setting-item input[type="checkbox"] {
+    margin-right: 0.5rem;
+}
+
+.setting-description {
+    margin: 0.25rem 0 0 1.5rem;
+    color: #666;
+    font-size: 0.875rem;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.modal-actions button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.cancel-button {
+    background: none;
+    border: 1px solid #ddd;
+    color: #666;
+}
+
+.cancel-button:hover {
+    background: #f5f5f5;
+}
+
+.save-button {
+    background: var(--primary-color);
+    border: none;
+    color: white;
+}
+
+.save-button:hover {
+    background: var(--primary-color-dark);
+}
+
+@media (max-width: 768px) {
+    .notification-center {
+        width: 100%;
+        right: -100%;
+    }
+
+    .notification-toast {
+        width: calc(100% - 40px);
+    }
+
+    .modal-content {
+        width: calc(100% - 2rem);
+        margin: 1rem;
+        max-height: calc(100vh - 2rem);
+        overflow-y: auto;
+    }
+}
