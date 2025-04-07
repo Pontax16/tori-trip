@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ブログ - トリっぷ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --text-color: #2c3e50;
+            --background-color: #f5f5f5;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .nav {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 80px auto 0;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+        }
+
+        .blog-grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .blog-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .blog-content {
+            padding: 1.5rem;
+        }
+
+        .blog-category {
+            color: var(--primary-color);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .blog-title {
+            font-size: 1.25rem;
+            margin: 0 0 1rem;
+            color: var(--text-color);
+        }
+
+        .blog-excerpt {
+            color: #666;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .blog-meta {
+            display: flex;
+            align-items: center;
+            color: #999;
+            font-size: 0.875rem;
+        }
+
+        .blog-meta i {
+            margin-right: 0.5rem;
+        }
+
+        .blog-meta span {
+            margin-right: 1rem;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 100px;
+            align-self: start;
+        }
+
+        .sidebar-section {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-section h3 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .category-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .category-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        .category-list a {
+            color: var(--text-color);
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .category-list a:hover {
+            background-color: var(--background-color);
+        }
+
+        .category-count {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+        }
+
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            background: var(--background-color);
+            color: var(--text-color);
+            padding: 0.25rem 0.75rem;
+            border-radius: 16px;
+            font-size: 0.875rem;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .tag:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background: #2980b9;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">トリっぷ</a>
+            <div class="nav-links">
+                <a href="../index.html#birds" class="nav-link">鳥たち</a>
+                <a href="../index.html#breeders" class="nav-link">ブリーダー</a>
+                <a href="../index.html#contact" class="nav-link">お問い合わせ</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <main class="blog-grid">
+            <article class="blog-card">
+                <img src="https://images.unsplash.com/photo-1552728089-57bdde30beb3" alt="初めての鳥選び" class="blog-image">
+                <div class="blog-content">
+                    <div class="blog-category">初心者ガイド</div>
+                    <h2 class="blog-title">はじめての鳥選び - 種類別の特徴と相性</h2>
+                    <p class="blog-excerpt">
+                        初めて鳥を飼う方に向けて、各種鳥の特徴や性格、飼育の難易度などを詳しく解説します。
+                        あなたのライフスタイルに合った鳥選びをサポートします。
+                    </p>
+                    <div class="blog-meta">
+                        <i class="far fa-calendar"></i>
+                        <span>2025年4月1日</span>
+                        <i class="far fa-user"></i>
+                        <span>トリっぷ編集部</span>
+                    </div>
+                </div>
+            </article>
+
+            <article class="blog-card">
+                <img src="https://images.unsplash.com/photo-1591198936750-16d8e15edb9e" alt="鳥の健康管理" class="blog-image">
+                <div class="blog-content">
+                    <div class="blog-category">健康・ケア</div>
+                    <h2 class="blog-title">鳥の健康管理 - 日常のケアと病気の予防</h2>
+                    <p class="blog-excerpt">
+                        鳥の健康を保つための日常的なケアや、よくある病気の症状と予防法について解説します。
+                        早期発見と適切なケアで、長く健康に過ごすためのポイントをお伝えします。
+                    </p>
+                    <div class="blog-meta">
+                        <i class="far fa-calendar"></i>
+                        <span>2025年3月28日</span>
+                        <i class="far fa-user"></i>
+                        <span>獣医師 山田太郎</span>
+                    </div>
+                </div>
+            </article>
+
+            <article class="blog-card">
+                <img src="https://images.unsplash.com/photo-1557160854-e1e89fdd3286" alt="鳥のおもちゃ作り" class="blog-image">
+                <div class="blog-content">
+                    <div class="blog-category">DIY・工作</div>
+                    <h2 class="blog-title">手作りおもちゃで鳥と遊ぼう！簡単DIYガイド</h2>
+                    <p class="blog-excerpt">
+                        身近な材料で作れる、鳥のおもちゃの作り方を紹介します。
+                        安全な材料の選び方から、鳥が喜ぶ仕掛けまで、詳しく解説します。
+                    </p>
+                    <div class="blog-meta">
+                        <i class="far fa-calendar"></i>
+                        <span>2025年3月25日</span>
+                        <i class="far fa-user"></i>
+                        <span>クラフター 佐藤花子</span>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <aside class="sidebar">
+            <section class="sidebar-section">
+                <h3>カテゴリー</h3>
+                <ul class="category-list">
+                    <li>
+                        <a href="#">
+                            初心者ガイド
+                            <span class="category-count">5</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            健康・ケア
+                            <span class="category-count">8</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            DIY・工作
+                            <span class="category-count">3</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            食事・栄養
+                            <span class="category-count">6</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            しつけ・トレーニング
+                            <span class="category-count">4</span>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+
+            <section class="sidebar-section">
+                <h3>人気のタグ</h3>
+                <div class="tag-cloud">
+                    <a href="#" class="tag">セキセイインコ</a>
+                    <a href="#" class="tag">オカメインコ</a>
+                    <a href="#" class="tag">文鳥</a>
+                    <a href="#" class="tag">健康管理</a>
+                    <a href="#" class="tag">食事</a>
+                    <a href="#" class="tag">おもちゃ</a>
+                    <a href="#" class="tag">初心者向け</a>
+                    <a href="#" class="tag">病気予防</a>
+                    <a href="#" class="tag">しつけ方</a>
+                    <a href="#" class="tag">飼育環境</a>
+                </div>
+            </section>
+        </aside>
+    </div>
+</body>
+</html>
