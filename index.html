@@ -547,9 +547,136 @@
             font-size: 0.875rem;
             color: #666;
         }
+
+        /* お気に入り機能のスタイル */
+        .favorite-btn {
+            background: none;
+            border: none;
+            color: #ccc;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.3s;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1;
+        }
+
+        .favorite-btn.active {
+            color: #e74c3c;
+        }
+
+        .bird-card, .breeder-card {
+            position: relative;
+        }
+
+        /* お気に入りパネル */
+        .favorites-panel {
+            position: fixed;
+            right: -300px;
+            top: 0;
+            width: 300px;
+            height: 100vh;
+            background: white;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+            transition: right 0.3s;
+            z-index: 1000;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+
+        .favorites-panel.active {
+            right: 0;
+        }
+
+        .favorites-toggle {
+            position: fixed;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary-color);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .favorites-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .favorites-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .favorites-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .favorite-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .favorite-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-right: 1rem;
+        }
+
+        .favorite-item-info {
+            flex-grow: 1;
+        }
+
+        .favorite-item-info h4 {
+            margin: 0 0 0.25rem;
+        }
+
+        .favorite-item-info p {
+            margin: 0;
+            font-size: 0.875rem;
+            color: #666;
+        }
+
+        .favorite-remove {
+            background: none;
+            border: none;
+            color: #e74c3c;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
     </style>
 </head>
 <body>
+    <!-- お気に入りパネル -->
+    <div class="favorites-panel" id="favoritesPanel">
+        <div class="favorites-header">
+            <h3>お気に入り</h3>
+            <button class="favorites-close" onclick="toggleFavorites()">&times;</button>
+        </div>
+        <div id="favoritesList"></div>
+    </div>
+    <div class="favorites-toggle" onclick="toggleFavorites()">
+        <i class="fas fa-heart"></i>
+    </div>
+
     <nav class="nav">
         <div class="nav-container">
             <a href="#" class="nav-logo">トリっぷ</a>
@@ -602,24 +729,36 @@
             <h2>人気の鳥たち</h2>
             <div class="birds-grid">
                 <div class="bird-card">
+                    <button class="favorite-btn" onclick="toggleFavorite('bird', 'budgerigar', 'セキセイインコ', 'https://images.unsplash.com/photo-1552728089-57bdde30beb3')">
+                        <i class="fas fa-heart"></i>
+                    </button>
                     <img src="https://images.unsplash.com/photo-1552728089-57bdde30beb3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80" alt="セキセイインコ">
                     <h3>セキセイインコ</h3>
                     <p>初心者向け！賢く愛らしい性格で、人になつきやすい品種です。</p>
                     <a href="birds/budgerigar.html" class="btn">詳しく見る</a>
                 </div>
                 <div class="bird-card">
+                    <button class="favorite-btn" onclick="toggleFavorite('bird', 'cockatiel', 'オカメインコ', 'https://images.unsplash.com/photo-1591198936750-16d8e15edb9e')">
+                        <i class="fas fa-heart"></i>
+                    </button>
                     <img src="https://images.unsplash.com/photo-1591198936750-16d8e15edb9e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80" alt="オカメインコ">
                     <h3>オカメインコ</h3>
                     <p>穏やかで優しい性格。飼いやすく、長く一緒に暮らせる鳥です。</p>
                     <a href="birds/cockatiel.html" class="btn">詳しく見る</a>
                 </div>
                 <div class="bird-card">
+                    <button class="favorite-btn" onclick="toggleFavorite('bird', 'lovebird', 'コザクラインコ', 'https://images.unsplash.com/photo-1591198936750-16d8e15edb9e')">
+                        <i class="fas fa-heart"></i>
+                    </button>
                     <img src="https://images.unsplash.com/photo-1591198936750-16d8e15edb9e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80" alt="コザクラインコ">
                     <h3>コザクラインコ</h3>
                     <p>活発で好奇心旺盛。小型で扱いやすく、表情豊かな鳥です。</p>
                     <a href="birds/lovebird.html" class="btn">詳しく見る</a>
                 </div>
                 <div class="bird-card">
+                    <button class="favorite-btn" onclick="toggleFavorite('bird', 'finch', '文鳥', 'https://images.unsplash.com/photo-1591198936750-16d8e15edb9e')">
+                        <i class="fas fa-heart"></i>
+                    </button>
                     <img src="https://images.unsplash.com/photo-1591198936750-16d8e15edb9e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80" alt="文鳥">
                     <h3>文鳥</h3>
                     <p>温厚な性格で初心者向け。さえずりが美しい小型の鳥です。</p>
@@ -744,6 +883,9 @@
             
             <div class="breeder-grid">
                 <div class="breeder-card">
+                    <button class="favorite-btn" onclick="toggleFavorite('breeder', 'tanaka', '田中 愛鳥', 'https://images.unsplash.com/photo-1542736667-069246bdbc6d')">
+                        <i class="fas fa-heart"></i>
+                    </button>
                     <img src="https://images.unsplash.com/photo-1542736667-069246bdbc6d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="田中さんと鳥" class="breeder-image">
                     <div class="breeder-info">
                         <div class="breeder-name">田中 愛鳥</div>
@@ -760,6 +902,9 @@
                 </div>
 
                 <div class="breeder-card">
+                    <button class="favorite-btn" onclick="toggleFavorite('breeder', 'suzuki', '鈴木 飛翔', 'https://images.unsplash.com/photo-1452570053594-1b985d6ea890')">
+                        <i class="fas fa-heart"></i>
+                    </button>
                     <img src="https://images.unsplash.com/photo-1452570053594-1b985d6ea890?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="鈴木さんと鳥" class="breeder-image">
                     <div class="breeder-info">
                         <div class="breeder-name">鈴木 飛翔</div>
@@ -776,6 +921,9 @@
                 </div>
 
                 <div class="breeder-card">
+                    <button class="favorite-btn" onclick="toggleFavorite('breeder', 'sato', '佐藤 羽花', 'https://images.unsplash.com/photo-1557160854-e1e89fdd3286')">
+                        <i class="fas fa-heart"></i>
+                    </button>
                     <img src="https://images.unsplash.com/photo-1557160854-e1e89fdd3286?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="佐藤さんと鳥" class="breeder-image">
                     <div class="breeder-info">
                         <div class="breeder-name">佐藤 羽花</div>
@@ -852,153 +1000,96 @@
     </footer>
 
     <script>
-        function handleSubmit(event) {
-            event.preventDefault();
+        // 既存のスクリプト
+        {{ ... }}
+
+        // お気に入り機能
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || { birds: {}, breeders: {} };
+
+        function toggleFavorite(type, id, name, image) {
+            const collection = favorites[type + 's'];
+            const btn = event.currentTarget;
             
-            // フォームの検証
-            const form = event.target;
-            const formData = new FormData(form);
-            let isValid = true;
-
-            // エラーメッセージをリセット
-            document.querySelectorAll(".error-message").forEach(error => {
-                error.style.display = "none";
-            });
-
-            // 各フィールドの検証
-            if (!formData.get("name")) {
-                document.getElementById("nameError").style.display = "block";
-                isValid = false;
-            }
-
-            if (!formData.get("email") || !formData.get("email").match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-                document.getElementById("emailError").style.display = "block";
-                isValid = false;
-            }
-
-            if (!formData.get("subject")) {
-                document.getElementById("subjectError").style.display = "block";
-                isValid = false;
-            }
-
-            if (!formData.get("message")) {
-                document.getElementById("messageError").style.display = "block";
-                isValid = false;
-            }
-
-            if (isValid) {
-                // フォームを非表示にし、成功メッセージを表示
-                form.style.display = "none";
-                document.getElementById("formSuccess").style.display = "block";
-                
-                // 実際のアプリケーションでは、ここでサーバーにデータを送信
-                console.log("Form submitted:", Object.fromEntries(formData));
-            }
-
-            return false;
-        }
-
-        // リアルタイムバリデーション
-        document.querySelectorAll(".form-control").forEach(input => {
-            input.addEventListener("input", function() {
-                const errorId = this.id + "Error";
-                const errorElement = document.getElementById(errorId);
-                
-                if (this.value.trim()) {
-                    errorElement.style.display = "none";
-                }
-            });
-        });
-
-        // FAQのアコーディオン機能
-        document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', () => {
-                const item = question.parentElement;
-                const isActive = item.classList.contains('active');
-                
-                // 他のアクティブな項目を閉じる
-                document.querySelectorAll('.faq-item').forEach(faqItem => {
-                    faqItem.classList.remove('active');
-                });
-                
-                // クリックされた項目を開く（既に開いている場合は閉じる）
-                if (!isActive) {
-                    item.classList.add('active');
-                }
-            });
-        });
-
-        // 検索機能
-        const searchData = {
-            birds: [
-                { category: '鳥種', title: 'セキセイインコ', description: '初心者向け！賢く愛らしい性格で、人になつきやすい品種です。' },
-                { category: '鳥種', title: 'オカメインコ', description: '穏やかで優しい性格。飼いやすく、長く一緒に暮らせる鳥です。' },
-                { category: '鳥種', title: 'コザクラインコ', description: '活発で好奇心旺盛。小型で扱いやすく、表情豊かな鳥です。' },
-                { category: '鳥種', title: '文鳥', description: '温厚な性格で初心者向け。さえずりが美しい小型の鳥です。' }
-            ],
-            breeders: [
-                { category: 'ブリーダー', title: '田中 愛鳥', description: 'セキセイインコ、オカメインコの専門家。経験年数15年。' },
-                { category: 'ブリーダー', title: '鈴木 飛翔', description: 'コザクラインコ、ボタンインコの専門家。経験年数20年。' },
-                { category: 'ブリーダー', title: '佐藤 羽花', description: 'オカメインコ、文鳥の専門家。経験年数12年。' }
-            ]
-        };
-
-        function handleSearchInput(event) {
-            const searchTerm = event.target.value.toLowerCase();
-            const resultsContainer = document.getElementById('searchResults');
-            
-            if (searchTerm.length < 2) {
-                resultsContainer.classList.remove('active');
-                return;
-            }
-
-            const results = [...searchData.birds, ...searchData.breeders].filter(item => 
-                item.title.toLowerCase().includes(searchTerm) || 
-                item.description.toLowerCase().includes(searchTerm)
-            );
-
-            if (results.length > 0) {
-                resultsContainer.innerHTML = results.map(result => `
-                    <div class="search-result-item" onclick="handleResultClick('${result.title}')">
-                        <div class="result-category">${result.category}</div>
-                        <div class="result-title">${result.title}</div>
-                        <div class="result-description">${result.description}</div>
-                    </div>
-                `).join('');
-                resultsContainer.classList.add('active');
+            if (collection[id]) {
+                delete collection[id];
+                btn.classList.remove('active');
             } else {
-                resultsContainer.innerHTML = `
-                    <div class="search-result-item">
-                        <div class="result-description">検索結果が見つかりませんでした</div>
-                    </div>
-                `;
-                resultsContainer.classList.add('active');
+                collection[id] = { name, image };
+                btn.classList.add('active');
             }
-        }
-
-        function handleResultClick(title) {
-            // 将来的に詳細ページへの遷移を実装
-            console.log(`Selected: ${title}`);
-            document.getElementById('searchResults').classList.remove('active');
-        }
-
-        function handleSearch(event) {
-            event.preventDefault();
-            const searchTerm = event.target.querySelector('.search-input').value;
-            // 将来的に検索結果ページへの遷移を実装
-            console.log(`Search submitted: ${searchTerm}`);
-            return false;
-        }
-
-        // クリックイベントの監視
-        document.addEventListener('click', function(event) {
-            const searchResults = document.getElementById('searchResults');
-            const searchForm = document.querySelector('.search-form');
             
-            // 検索フォーム外をクリックした場合、結果を非表示
-            if (!searchForm.contains(event.target)) {
-                searchResults.classList.remove('active');
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            updateFavoritesList();
+        }
+
+        function toggleFavorites() {
+            const panel = document.getElementById('favoritesPanel');
+            panel.classList.toggle('active');
+        }
+
+        function updateFavoritesList() {
+            const container = document.getElementById('favoritesList');
+            let html = '';
+
+            // 鳥のお気に入り
+            if (Object.keys(favorites.birds).length > 0) {
+                html += '<h4>鳥</h4><ul class="favorites-list">';
+                for (const [id, data] of Object.entries(favorites.birds)) {
+                    html += `
+                        <li class="favorite-item">
+                            <img src="${data.image}" alt="${data.name}">
+                            <div class="favorite-item-info">
+                                <h4>${data.name}</h4>
+                                <a href="birds/${id}.html">詳細を見る</a>
+                            </div>
+                            <button class="favorite-remove" onclick="toggleFavorite('bird', '${id}', '${data.name}', '${data.image}')">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </li>
+                    `;
+                }
+                html += '</ul>';
             }
+
+            // ブリーダーのお気に入り
+            if (Object.keys(favorites.breeders).length > 0) {
+                html += '<h4>ブリーダー</h4><ul class="favorites-list">';
+                for (const [id, data] of Object.entries(favorites.breeders)) {
+                    html += `
+                        <li class="favorite-item">
+                            <img src="${data.image}" alt="${data.name}">
+                            <div class="favorite-item-info">
+                                <h4>${data.name}</h4>
+                            </div>
+                            <button class="favorite-remove" onclick="toggleFavorite('breeder', '${id}', '${data.name}', '${data.image}')">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </li>
+                    `;
+                }
+                html += '</ul>';
+            }
+
+            if (html === '') {
+                html = '<p>お気に入りはまだありません</p>';
+            }
+
+            container.innerHTML = html;
+        }
+
+        // 初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            // お気に入りボタンの状態を復元
+            const buttons = document.querySelectorAll('.favorite-btn');
+            buttons.forEach(btn => {
+                const type = btn.getAttribute('onclick').split("'")[1];
+                const id = btn.getAttribute('onclick').split("'")[3];
+                if (favorites[type + 's'][id]) {
+                    btn.classList.add('active');
+                }
+            });
+
+            updateFavoritesList();
         });
     </script>
 </body>
