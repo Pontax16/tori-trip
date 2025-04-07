@@ -4,138 +4,254 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>トリっぷ - インコ・オウム専門のブリーダーマッチングサイト</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --text-color: #2c3e50;
+            --background-color: #f5f5f5;
+        }
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, sans-serif;
             line-height: 1.6;
             margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
         }
-        .container {
-            max-width: 800px;
+
+        /* Navigation */
+        .nav {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
             margin: 0 auto;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 80px auto 0;
             padding: 2rem;
         }
+
         .hero {
-            background: white;
-            padding: 3rem 2rem;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("https://images.unsplash.com/photo-1552728089-57bdde30beb3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80");
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 6rem 2rem;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             text-align: center;
-            margin-bottom: 2rem;
-        }
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
             margin-bottom: 3rem;
         }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: white;
+            max-width: 600px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
         .feature {
             background: white;
-            padding: 1.5rem;
+            padding: 2rem;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
         }
+
+        .feature i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
         .birds {
             background: white;
-            padding: 2rem;
+            padding: 3rem;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
         }
+
         .bird-types {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
         }
+
         .bird-type {
             text-align: center;
-            padding: 1rem;
-            background: #f8f9fa;
-            border-radius: 4px;
-        }
-        .cta {
-            background: white;
             padding: 2rem;
+            background: var(--background-color);
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .bird-type:hover {
+            transform: translateY(-5px);
+        }
+
+        .bird-type i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .cta {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 4rem 2rem;
+            border-radius: 8px;
             text-align: center;
+            color: white;
         }
-        h1 {
-            color: #2c3e50;
-            margin-bottom: 1rem;
-            font-size: 2.5rem;
+
+        .cta h2 {
+            color: white;
+            margin-bottom: 1.5rem;
         }
-        h2 {
-            color: #2c3e50;
-            margin-bottom: 1rem;
-        }
-        h3 {
-            color: #2c3e50;
-            margin-bottom: 0.5rem;
-        }
-        p {
-            color: #34495e;
-            margin-bottom: 1rem;
-        }
+
         .button {
             display: inline-block;
-            padding: 0.8rem 1.5rem;
-            background-color: #3498db;
-            color: white;
+            padding: 1rem 2rem;
+            background-color: white;
+            color: var(--primary-color);
             text-decoration: none;
             border-radius: 4px;
-            transition: background-color 0.3s;
+            transition: transform 0.3s;
+            font-weight: bold;
         }
+
         .button:hover {
-            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero {
+                padding: 4rem 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">トリっぷ</a>
+            <div class="nav-links">
+                <a href="#features" class="nav-link">特徴</a>
+                <a href="#birds" class="nav-link">鳥たち</a>
+                <a href="#contact" class="nav-link">お問い合わせ</a>
+                <a href="#register" class="nav-link">ブリーダー登録</a>
+            </div>
+        </div>
+    </nav>
+
     <div class="container">
         <section class="hero">
             <h1>トリっぷ</h1>
             <p>インコ・オウム専門のブリーダーマッチングサイト</p>
             <p>大切な家族との出会いをサポートします</p>
+            <a href="#contact" class="button">お問い合わせ</a>
         </section>
 
-        <section class="features">
+        <section id="features" class="features">
             <div class="feature">
+                <i class="fas fa-check-circle"></i>
                 <h3>信頼できるブリーダー</h3>
                 <p>経験豊富な専門ブリーダーを厳選してご紹介。すべてのブリーダーは審査を通過した信頼できる方々です。</p>
             </div>
             <div class="feature">
+                <i class="fas fa-heart"></i>
                 <h3>健康な鳥たち</h3>
                 <p>獣医師による定期的な健康診断を実施。健康で活発な鳥たちとの出会いをお約束します。</p>
             </div>
             <div class="feature">
+                <i class="fas fa-hands-helping"></i>
                 <h3>安心のサポート</h3>
                 <p>お迎え後もブリーダーと獣医師が連携してサポート。初めての方でも安心して育てられます。</p>
             </div>
         </section>
 
-        <section class="birds">
+        <section id="birds" class="birds">
             <h2>人気の鳥たち</h2>
             <div class="bird-types">
                 <div class="bird-type">
+                    <i class="fas fa-dove"></i>
                     <h3>セキセイインコ</h3>
                     <p>初心者向け！賢く愛らしい性格で、人になつきやすい品種です。</p>
                 </div>
                 <div class="bird-type">
+                    <i class="fas fa-dove"></i>
                     <h3>オカメインコ</h3>
                     <p>穏やかで優しい性格。飼いやすく、長く一緒に暮らせる鳥です。</p>
                 </div>
                 <div class="bird-type">
+                    <i class="fas fa-dove"></i>
                     <h3>コザクラインコ</h3>
                     <p>活発で好奇心旺盛。小型で扱いやすく、表情豊かな鳥です。</p>
                 </div>
             </div>
         </section>
 
-        <section class="cta">
+        <section id="register" class="cta">
             <h2>ブリーダーの方へ</h2>
             <p>トリっぷでは、信頼できるブリーダーを随時募集しています。</p>
             <p>大切に育てた鳥たちの、新しい家族との出会いをサポートしませんか？</p>
