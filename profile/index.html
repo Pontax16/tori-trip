@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>プロフィール | トリっぷ</title>
+    <meta name="description" content="トリっぷでのあなたのプロフィールページです。">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="../css/search.css">
+    <link rel="stylesheet" href="../css/auth.css">
+    <link rel="stylesheet" href="../css/notifications.css">
+    <link rel="stylesheet" href="../css/profile.css">
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-content">
+            <a href="/" class="logo">トリっぷ</a>
+            <div class="nav-links">
+                <button class="search-trigger" onclick="searchSystem.toggleSearch(true)">
+                    <i class="fas fa-search"></i>
+                    検索
+                </button>
+                <a href="/birds">鳥を探す</a>
+                <a href="/breeders">ブリーダー</a>
+                <a href="/blog">ブログ</a>
+                <a href="/community">コミュニティ</a>
+                <div class="auth-wrapper">
+                    <button class="auth-button" onclick="authSystem.toggleAuth(true)">ログイン</button>
+                    <div class="user-menu">
+                        <a href="/profile" class="user-menu-item">
+                            <i class="fas fa-user"></i>
+                            プロフィール
+                        </a>
+                        <a href="/favorites" class="user-menu-item">
+                            <i class="fas fa-heart"></i>
+                            お気に入り
+                        </a>
+                        <a href="/settings" class="user-menu-item">
+                            <i class="fas fa-cog"></i>
+                            設定
+                        </a>
+                        <button class="user-menu-item" onclick="authSystem.logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            ログアウト
+                        </button>
+                    </div>
+                </div>
+                <button class="notification-trigger" onclick="notificationSystem.toggleNotifications()">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="profile-page">
+        <div class="profile-header">
+            <div class="profile-cover">
+                <button class="edit-cover">
+                    <i class="fas fa-camera"></i>
+                    カバー画像を変更
+                </button>
+            </div>
+            <div class="profile-info">
+                <div class="profile-avatar">
+                    <img src="../images/default-avatar.png" alt="プロフィール画像" id="profileAvatar">
+                    <button class="edit-avatar">
+                        <i class="fas fa-camera"></i>
+                    </button>
+                </div>
+                <div class="profile-details">
+                    <h1 id="profileName">ユーザー名</h1>
+                    <p id="profileBio">自己紹介文がここに表示されます。</p>
+                    <div class="profile-stats">
+                        <div class="stat">
+                            <span class="stat-value" id="articleCount">0</span>
+                            <span class="stat-label">記事</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value" id="commentCount">0</span>
+                            <span class="stat-label">コメント</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value" id="favoriteCount">0</span>
+                            <span class="stat-label">お気に入り</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="edit-profile-button" onclick="profileSystem.openEditModal()">
+                    <i class="fas fa-edit"></i>
+                    プロフィールを編集
+                </button>
+            </div>
+        </div>
+
+        <div class="profile-content">
+            <div class="profile-tabs">
+                <button class="tab-button active" data-tab="activities">活動</button>
+                <button class="tab-button" data-tab="articles">記事</button>
+                <button class="tab-button" data-tab="comments">コメント</button>
+                <button class="tab-button" data-tab="favorites">お気に入り</button>
+            </div>
+
+            <div class="tab-content active" id="activitiesTab">
+                <div class="activity-timeline"></div>
+            </div>
+
+            <div class="tab-content" id="articlesTab">
+                <div class="articles-grid"></div>
+            </div>
+
+            <div class="tab-content" id="commentsTab">
+                <div class="comments-list"></div>
+            </div>
+
+            <div class="tab-content" id="favoritesTab">
+                <div class="favorites-grid"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-storage-compat.js"></script>
+    
+    <script src="../js/search.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/notifications.js"></script>
+    <script src="../js/profile.js"></script>
+    <script>
+        const searchSystem = new SearchSystem();
+        const authSystem = new AuthSystem();
+        const notificationSystem = new NotificationSystem();
+        const profileSystem = new ProfileSystem();
+
+        // 認証状態の変更を監視
+        document.addEventListener('authStateChanged', async (e) => {
+            const user = e.detail.user;
+            if (user) {
+                await profileSystem.loadProfile(user.uid);
+            } else {
+                window.location.href = '/';
+            }
+        });
+
+        // タブの切り替え
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const tab = button.dataset.tab;
+                profileSystem.switchTab(tab);
+            });
+        });
+    </script>
+</body>
+</html>
