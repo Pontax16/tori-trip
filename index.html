@@ -12,6 +12,7 @@
     <link rel="preconnect" href="https://images.unsplash.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="css/search.css">
+    <link rel="stylesheet" href="css/auth.css">
     <style>
         /* 既存のスタイル */
         :root {
@@ -902,7 +903,7 @@
                 <h3>サービス</h3>
                 <ul class="footer-links">
                     <li><a href="#birds">鳥の種類</a></li>
-                    <li><a href="#breeders">ブリーダー紹介</a></li>
+                    <li><a href="#breeders">ブリーダー</a></li>
                     <li><a href="#faq">よくある質問</a></li>
                     <li><a href="#register">ブリーダー登録</a></li>
                 </ul>
@@ -935,215 +936,25 @@
         </div>
     </footer>
 
-    <script>
-        // Service Workerの登録
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(registration => {
-                        console.log('ServiceWorker registration successful');
-                    })
-                    .catch(err => {
-                        console.log('ServiceWorker registration failed: ', err);
-                    });
-            });
-        }
-
-        // オフラインステータスの監視
-        window.addEventListener('online', updateOnlineStatus);
-        window.addEventListener('offline', updateOnlineStatus);
-
-        function updateOnlineStatus() {
-            const status = navigator.onLine ? 'online' : 'offline';
-            if (!navigator.onLine) {
-                showOfflineNotification();
-            }
-        }
-
-        function showOfflineNotification() {
-            const notification = document.createElement('div');
-            notification.className = 'offline-notification';
-            notification.textContent = 'オフラインモードです。一部の機能が制限される場合があります。';
-            document.body.appendChild(notification);
-            setTimeout(() => {
-                notification.remove();
-            }, 3000);
-        }
-
-        // 遅延読み込みの初期化
-        document.addEventListener("DOMContentLoaded", function() {
-            let lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));
-            let active = false;
-
-            const lazyLoad = function() {
-                if (active === false) {
-                    active = true;
-
-                    setTimeout(function() {
-                        lazyImages.forEach(function(lazyImage) {
-                            if ((lazyImage.getBoundingClientRect().top <= window.innerHeight && lazyImage.getBoundingClientRect().bottom >= 0) && getComputedStyle(lazyImage).display !== "none") {
-                                lazyImage.src = lazyImage.dataset.src;
-                                lazyImage.classList.remove("lazy");
-
-                                lazyImages = lazyImages.filter(function(image) {
-                                    return image !== lazyImage;
-                                });
-
-                                if (lazyImages.length === 0) {
-                                    document.removeEventListener("scroll", lazyLoad);
-                                    window.removeEventListener("resize", lazyLoad);
-                                    window.removeEventListener("orientationchange", lazyLoad);
-                                }
-                            }
-                        });
-
-                        active = false;
-                    }, 200);
-                }
-            };
-
-            document.addEventListener("scroll", lazyLoad);
-            window.addEventListener("resize", lazyLoad);
-            window.addEventListener("orientationchange", lazyLoad);
-            lazyLoad();
-        });
-
-        // 検索機能の最適化（デバウンス処理）
-        function debounce(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        }
-
-        const handleSearchInput = debounce(function(event) {
-            const searchTerm = event.target.value.toLowerCase();
-            const resultsContainer = document.getElementById('searchResults');
-            
-            if (searchTerm.length < 2) {
-                resultsContainer.classList.remove('active');
-                return;
-            }
-
-            const results = [...searchData.birds, ...searchData.breeders].filter(item => 
-                item.title.toLowerCase().includes(searchTerm) || 
-                item.description.toLowerCase().includes(searchTerm)
-            );
-
-            if (results.length > 0) {
-                resultsContainer.innerHTML = results.map(result => `
-                    <div class="search-result-item" onclick="handleResultClick('${result.title}')">
-                        <div class="result-category">${result.category}</div>
-                        <div class="result-title">${result.title}</div>
-                        <div class="result-description">${result.description}</div>
-                    </div>
-                `).join('');
-                resultsContainer.classList.add('active');
-            } else {
-                resultsContainer.innerHTML = `
-                    <div class="search-result-item">
-                        <div class="result-description">検索結果が見つかりませんでした</div>
-                    </div>
-                `;
-                resultsContainer.classList.add('active');
-            }
-        }, 300);
-
-        // お気に入り機能の最適化（ローカルストレージの効率化）
-        const favorites = {
-            data: JSON.parse(localStorage.getItem('favorites')) || { birds: {}, breeders: {} },
-            
-            save() {
-                localStorage.setItem('favorites', JSON.stringify(this.data));
-            },
-
-            toggle(type, id, name, image) {
-                const collection = this.data[type + 's'];
-                const btn = event.currentTarget;
-                
-                if (collection[id]) {
-                    delete collection[id];
-                    btn.classList.remove('active');
-                } else {
-                    collection[id] = { name, image };
-                    btn.classList.add('active');
-                }
-                
-                this.save();
-                this.updateList();
-            },
-
-            updateList() {
-                const container = document.getElementById('favoritesList');
-                let html = '';
-
-                // 鳥のお気に入り
-                if (Object.keys(this.data.birds).length > 0) {
-                    html += '<h4>鳥</h4><ul class="favorites-list">';
-                    for (const [id, data] of Object.entries(this.data.birds)) {
-                        html += this.createItemHtml('bird', id, data);
-                    }
-                    html += '</ul>';
-                }
-
-                // ブリーダーのお気に入り
-                if (Object.keys(this.data.breeders).length > 0) {
-                    html += '<h4>ブリーダー</h4><ul class="favorites-list">';
-                    for (const [id, data] of Object.entries(this.data.breeders)) {
-                        html += this.createItemHtml('breeder', id, data);
-                    }
-                    html += '</ul>';
-                }
-
-                if (html === '') {
-                    html = '<p>お気に入りはまだありません</p>';
-                }
-
-                container.innerHTML = html;
-            },
-
-            createItemHtml(type, id, data) {
-                return `
-                    <li class="favorite-item">
-                        <img src="${data.image}" alt="${data.name}" loading="lazy">
-                        <div class="favorite-item-info">
-                            <h4>${data.name}</h4>
-                            ${type === 'bird' ? `<a href="birds/${id}.html">詳細を見る</a>` : ''}
-                        </div>
-                        <button class="favorite-remove" onclick="favorites.toggle('${type}', '${id}', '${data.name}', '${data.image}')">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </li>
-                `;
-            },
-
-            init() {
-                // お気に入りボタンの状態を復元
-                document.querySelectorAll('.favorite-btn').forEach(btn => {
-                    const type = btn.getAttribute('onclick').split("'")[1];
-                    const id = btn.getAttribute('onclick').split("'")[3];
-                    if (this.data[type + 's'][id]) {
-                        btn.classList.add('active');
-                    }
-                });
-
-                this.updateList();
-            }
-        };
-
-        // 初期化
-        document.addEventListener('DOMContentLoaded', function() {
-            favorites.init();
-        });
-    </script>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-auth-compat.js"></script>
+    
     <script src="js/search.js"></script>
+    <script src="js/auth.js"></script>
     <script>
         const searchSystem = new SearchSystem();
+        const authSystem = new AuthSystem();
+
+        // 認証状態の変更を監視
+        document.addEventListener('authStateChanged', (e) => {
+            const user = e.detail.user;
+            if (user) {
+                console.log('ログインしました:', user.displayName);
+            } else {
+                console.log('ログアウトしました');
+            }
+        });
     </script>
 </body>
 </html>
