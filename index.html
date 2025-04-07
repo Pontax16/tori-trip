@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>トリっぷ - インコ・オウム専門のブリーダーマッチングサイト</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta name="description" content="トリっぷは、インコ・オウム専門のブリーダーマッチングサイトです。">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://images.unsplash.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
     <style>
         /* 既存のスタイル */
         :root {
@@ -639,7 +642,7 @@
                     <button class="favorite-btn" onclick="toggleFavorite('bird', 'budgerigar', 'セキセイインコ', 'https://images.unsplash.com/photo-1552728089-57bdde30beb3')">
                         <i class="fas fa-heart"></i>
                     </button>
-                    <img src="https://images.unsplash.com/photo-1552728089-57bdde30beb3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80" alt="セキセイインコ">
+                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="https://images.unsplash.com/photo-1552728089-57bdde30beb3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="セキセイインコ" class="lazy" loading="lazy">
                     <h3>セキセイインコ</h3>
                     <p>初心者向け！賢く愛らしい性格で、人になつきやすい品種です。</p>
                     <a href="birds/budgerigar.html" class="btn">詳しく見る</a>
@@ -648,7 +651,7 @@
                     <button class="favorite-btn" onclick="toggleFavorite('bird', 'cockatiel', 'オカメインコ', 'https://images.unsplash.com/photo-1591198936750-16d8e15edb9e')">
                         <i class="fas fa-heart"></i>
                     </button>
-                    <img src="https://images.unsplash.com/photo-1591198936750-16d8e15edb9e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80" alt="オカメインコ">
+                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="https://images.unsplash.com/photo-1591198936750-16d8e15edb9e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="オカメインコ" class="lazy" loading="lazy">
                     <h3>オカメインコ</h3>
                     <p>穏やかで優しい性格。飼いやすく、長く一緒に暮らせる鳥です。</p>
                     <a href="birds/cockatiel.html" class="btn">詳しく見る</a>
@@ -657,7 +660,7 @@
                     <button class="favorite-btn" onclick="toggleFavorite('bird', 'lovebird', 'コザクラインコ', 'https://images.unsplash.com/photo-1591198936750-16d8e15edb9e')">
                         <i class="fas fa-heart"></i>
                     </button>
-                    <img src="https://images.unsplash.com/photo-1591198936750-16d8e15edb9e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80" alt="コザクラインコ">
+                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="https://images.unsplash.com/photo-1591198936750-16d8e15edb9e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="コザクラインコ" class="lazy" loading="lazy">
                     <h3>コザクラインコ</h3>
                     <p>活発で好奇心旺盛。小型で扱いやすく、表情豊かな鳥です。</p>
                     <a href="birds/lovebird.html" class="btn">詳しく見る</a>
@@ -666,7 +669,7 @@
                     <button class="favorite-btn" onclick="toggleFavorite('bird', 'finch', '文鳥', 'https://images.unsplash.com/photo-1591198936750-16d8e15edb9e')">
                         <i class="fas fa-heart"></i>
                     </button>
-                    <img src="https://images.unsplash.com/photo-1591198936750-16d8e15edb9e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80" alt="文鳥">
+                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="https://images.unsplash.com/photo-1591198936750-16d8e15edb9e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="文鳥" class="lazy" loading="lazy">
                     <h3>文鳥</h3>
                     <p>温厚な性格で初心者向け。さえずりが美しい小型の鳥です。</p>
                     <a href="birds/finch.html" class="btn">詳しく見る</a>
@@ -907,118 +910,175 @@
     </footer>
 
     <script>
-        // 既存のスクリプト
-        {{ ... }}
+        // 遅延読み込みの初期化
+        document.addEventListener("DOMContentLoaded", function() {
+            let lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));
+            let active = false;
 
-        // お気に入り機能
-        let favorites = JSON.parse(localStorage.getItem('favorites')) || { birds: {}, breeders: {} };
+            const lazyLoad = function() {
+                if (active === false) {
+                    active = true;
 
-        function toggleFavorite(type, id, name, image) {
-            const collection = favorites[type + 's'];
-            const btn = event.currentTarget;
+                    setTimeout(function() {
+                        lazyImages.forEach(function(lazyImage) {
+                            if ((lazyImage.getBoundingClientRect().top <= window.innerHeight && lazyImage.getBoundingClientRect().bottom >= 0) && getComputedStyle(lazyImage).display !== "none") {
+                                lazyImage.src = lazyImage.dataset.src;
+                                lazyImage.classList.remove("lazy");
+
+                                lazyImages = lazyImages.filter(function(image) {
+                                    return image !== lazyImage;
+                                });
+
+                                if (lazyImages.length === 0) {
+                                    document.removeEventListener("scroll", lazyLoad);
+                                    window.removeEventListener("resize", lazyLoad);
+                                    window.removeEventListener("orientationchange", lazyLoad);
+                                }
+                            }
+                        });
+
+                        active = false;
+                    }, 200);
+                }
+            };
+
+            document.addEventListener("scroll", lazyLoad);
+            window.addEventListener("resize", lazyLoad);
+            window.addEventListener("orientationchange", lazyLoad);
+            lazyLoad();
+        });
+
+        // 検索機能の最適化（デバウンス処理）
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        const handleSearchInput = debounce(function(event) {
+            const searchTerm = event.target.value.toLowerCase();
+            const resultsContainer = document.getElementById('searchResults');
             
-            if (collection[id]) {
-                delete collection[id];
-                btn.classList.remove('active');
+            if (searchTerm.length < 2) {
+                resultsContainer.classList.remove('active');
+                return;
+            }
+
+            const results = [...searchData.birds, ...searchData.breeders].filter(item => 
+                item.title.toLowerCase().includes(searchTerm) || 
+                item.description.toLowerCase().includes(searchTerm)
+            );
+
+            if (results.length > 0) {
+                resultsContainer.innerHTML = results.map(result => `
+                    <div class="search-result-item" onclick="handleResultClick('${result.title}')">
+                        <div class="result-category">${result.category}</div>
+                        <div class="result-title">${result.title}</div>
+                        <div class="result-description">${result.description}</div>
+                    </div>
+                `).join('');
+                resultsContainer.classList.add('active');
             } else {
-                collection[id] = { name, image };
-                btn.classList.add('active');
+                resultsContainer.innerHTML = `
+                    <div class="search-result-item">
+                        <div class="result-description">検索結果が見つかりませんでした</div>
+                    </div>
+                `;
+                resultsContainer.classList.add('active');
             }
+        }, 300);
+
+        // お気に入り機能の最適化（ローカルストレージの効率化）
+        const favorites = {
+            data: JSON.parse(localStorage.getItem('favorites')) || { birds: {}, breeders: {} },
             
-            localStorage.setItem('favorites', JSON.stringify(favorites));
-            updateFavoritesList();
-        }
+            save() {
+                localStorage.setItem('favorites', JSON.stringify(this.data));
+            },
 
-        function toggleFavorites() {
-            const panel = document.getElementById('favoritesPanel');
-            panel.classList.toggle('active');
-        }
-
-        function updateFavoritesList() {
-            const container = document.getElementById('favoritesList');
-            let html = '';
-
-            // 鳥のお気に入り
-            if (Object.keys(favorites.birds).length > 0) {
-                html += '<h4>鳥</h4><ul class="favorites-list">';
-                for (const [id, data] of Object.entries(favorites.birds)) {
-                    html += `
-                        <li class="favorite-item">
-                            <img src="${data.image}" alt="${data.name}">
-                            <div class="favorite-item-info">
-                                <h4>${data.name}</h4>
-                                <a href="birds/${id}.html">詳細を見る</a>
-                            </div>
-                            <button class="favorite-remove" onclick="toggleFavorite('bird', '${id}', '${data.name}', '${data.image}')">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </li>
-                    `;
+            toggle(type, id, name, image) {
+                const collection = this.data[type + 's'];
+                const btn = event.currentTarget;
+                
+                if (collection[id]) {
+                    delete collection[id];
+                    btn.classList.remove('active');
+                } else {
+                    collection[id] = { name, image };
+                    btn.classList.add('active');
                 }
-                html += '</ul>';
-            }
+                
+                this.save();
+                this.updateList();
+            },
 
-            // ブリーダーのお気に入り
-            if (Object.keys(favorites.breeders).length > 0) {
-                html += '<h4>ブリーダー</h4><ul class="favorites-list">';
-                for (const [id, data] of Object.entries(favorites.breeders)) {
-                    html += `
-                        <li class="favorite-item">
-                            <img src="${data.image}" alt="${data.name}">
-                            <div class="favorite-item-info">
-                                <h4>${data.name}</h4>
-                            </div>
-                            <button class="favorite-remove" onclick="toggleFavorite('breeder', '${id}', '${data.name}', '${data.image}')">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </li>
-                    `;
+            updateList() {
+                const container = document.getElementById('favoritesList');
+                let html = '';
+
+                // 鳥のお気に入り
+                if (Object.keys(this.data.birds).length > 0) {
+                    html += '<h4>鳥</h4><ul class="favorites-list">';
+                    for (const [id, data] of Object.entries(this.data.birds)) {
+                        html += this.createItemHtml('bird', id, data);
+                    }
+                    html += '</ul>';
                 }
-                html += '</ul>';
-            }
 
-            if (html === '') {
-                html = '<p>お気に入りはまだありません</p>';
-            }
-
-            container.innerHTML = html;
-        }
-
-        // モバイルメニュー
-        function toggleMobileMenu() {
-            const navLinks = document.querySelector('.nav-links');
-            navLinks.classList.toggle('active');
-        }
-
-        // モバイルメニューのリンクをクリックしたらメニューを閉じる
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', () => {
-                if (window.innerWidth <= 768) {
-                    document.querySelector('.nav-links').classList.remove('active');
+                // ブリーダーのお気に入り
+                if (Object.keys(this.data.breeders).length > 0) {
+                    html += '<h4>ブリーダー</h4><ul class="favorites-list">';
+                    for (const [id, data] of Object.entries(this.data.breeders)) {
+                        html += this.createItemHtml('breeder', id, data);
+                    }
+                    html += '</ul>';
                 }
-            });
-        });
 
-        // ウィンドウリサイズ時にモバイルメニューを初期状態に戻す
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 768) {
-                document.querySelector('.nav-links').classList.remove('active');
+                if (html === '') {
+                    html = '<p>お気に入りはまだありません</p>';
+                }
+
+                container.innerHTML = html;
+            },
+
+            createItemHtml(type, id, data) {
+                return `
+                    <li class="favorite-item">
+                        <img src="${data.image}" alt="${data.name}" loading="lazy">
+                        <div class="favorite-item-info">
+                            <h4>${data.name}</h4>
+                            ${type === 'bird' ? `<a href="birds/${id}.html">詳細を見る</a>` : ''}
+                        </div>
+                        <button class="favorite-remove" onclick="favorites.toggle('${type}', '${id}', '${data.name}', '${data.image}')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </li>
+                `;
+            },
+
+            init() {
+                // お気に入りボタンの状態を復元
+                document.querySelectorAll('.favorite-btn').forEach(btn => {
+                    const type = btn.getAttribute('onclick').split("'")[1];
+                    const id = btn.getAttribute('onclick').split("'")[3];
+                    if (this.data[type + 's'][id]) {
+                        btn.classList.add('active');
+                    }
+                });
+
+                this.updateList();
             }
-        });
+        };
 
         // 初期化
         document.addEventListener('DOMContentLoaded', function() {
-            // お気に入りボタンの状態を復元
-            const buttons = document.querySelectorAll('.favorite-btn');
-            buttons.forEach(btn => {
-                const type = btn.getAttribute('onclick').split("'")[1];
-                const id = btn.getAttribute('onclick').split("'")[3];
-                if (favorites[type + 's'][id]) {
-                    btn.classList.add('active');
-                }
-            });
-
-            updateFavoritesList();
+            favorites.init();
         });
     </script>
 </body>
