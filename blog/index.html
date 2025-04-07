@@ -115,6 +115,7 @@
             margin-bottom: 1rem;
             display: -webkit-box;
             -webkit-line-clamp: 3;
+            line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
@@ -225,10 +226,74 @@
         @media (max-width: 768px) {
             .container {
                 grid-template-columns: 1fr;
+                padding: 1rem;
+                margin-top: 60px;
+            }
+
+            .nav-container {
+                flex-direction: column;
+                padding: 0.5rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+                gap: 0;
+                display: none;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-link {
+                padding: 0.75rem;
+                border-bottom: 1px solid #eee;
+                text-align: center;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+                position: absolute;
+                right: 1rem;
+                top: 1rem;
+                background: none;
+                border: none;
+                font-size: 1.5rem;
+                color: var(--text-color);
+                cursor: pointer;
             }
 
             .sidebar {
                 position: static;
+                margin-top: 2rem;
+            }
+
+            .blog-image {
+                height: 150px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .blog-card {
+                margin-bottom: 1.5rem;
+            }
+
+            .blog-meta {
+                flex-wrap: wrap;
+            }
+
+            .blog-meta span {
+                margin-bottom: 0.5rem;
+            }
+
+            .tag-cloud {
+                gap: 0.25rem;
+            }
+
+            .tag {
+                font-size: 0.75rem;
+                padding: 0.25rem 0.5rem;
             }
         }
     </style>
@@ -237,6 +302,9 @@
     <nav class="nav">
         <div class="nav-container">
             <a href="../index.html" class="nav-logo">トリっぷ</a>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
             <div class="nav-links">
                 <a href="../index.html#birds" class="nav-link">鳥たち</a>
                 <a href="../index.html#breeders" class="nav-link">ブリーダー</a>
@@ -356,5 +424,29 @@
             </section>
         </aside>
     </div>
+
+    <script>
+        // モバイルメニュー
+        function toggleMobileMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+
+        // モバイルメニューのリンクをクリックしたらメニューを閉じる
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.nav-links').classList.remove('active');
+                }
+            });
+        });
+
+        // ウィンドウリサイズ時にモバイルメニューを初期状態に戻す
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                document.querySelector('.nav-links').classList.remove('active');
+            }
+        });
+    </script>
 </body>
 </html>

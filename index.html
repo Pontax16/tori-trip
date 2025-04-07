@@ -445,222 +445,125 @@
             color: #bdc3c7;
         }
 
+        /* レスポンシブ改善 */
         @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                padding: 0.5rem;
+            }
+
             .nav-links {
+                flex-direction: column;
+                width: 100%;
+                gap: 0;
                 display: none;
             }
-            
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-link {
+                padding: 0.75rem;
+                border-bottom: 1px solid #eee;
+                text-align: center;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+                position: absolute;
+                right: 1rem;
+                top: 1rem;
+                background: none;
+                border: none;
+                font-size: 1.5rem;
+                color: var(--text-color);
+                cursor: pointer;
+            }
+
             .hero {
-                padding: 4rem 1rem;
+                padding: 2rem 1rem;
+                margin-top: 60px;
             }
 
             .hero h1 {
                 font-size: 2rem;
             }
+
+            .features-grid, .birds-grid, .breeder-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .feature {
+                padding: 1rem;
+            }
+
+            .contact-form {
+                padding: 1rem;
+            }
+
+            .form-group {
+                margin-bottom: 1rem;
+            }
+
+            .favorites-panel {
+                width: 100%;
+                right: -100%;
+            }
+
+            .favorites-toggle {
+                right: 0.5rem;
+                padding: 0.25rem 0.5rem;
+            }
+
+            .bird-card, .breeder-card {
+                margin: 0 0 1rem;
+            }
+
+            .footer {
+                padding: 2rem 1rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
         }
 
-        /* 検索フォームのスタイル */
-        .search-form {
-            position: relative;
-            margin-left: auto;
-            margin-right: 2rem;
-        }
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.75rem;
+            }
 
-        .search-input {
-            padding: 0.5rem 1rem;
-            padding-right: 2.5rem;
-            border: 1px solid #ddd;
-            border-radius: 20px;
-            font-size: 0.875rem;
-            width: 200px;
-            transition: all 0.3s;
-        }
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
 
-        .search-input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            width: 300px;
-            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
-        }
+            .search-form {
+                flex-direction: column;
+            }
 
-        .search-button {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: #666;
-            cursor: pointer;
-            padding: 0;
-        }
+            .search-input {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
 
-        .search-button:hover {
-            color: var(--primary-color);
-        }
+            .favorite-item {
+                flex-direction: column;
+                text-align: center;
+            }
 
-        .search-results {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: white;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-top: 0.5rem;
-            max-height: 300px;
-            overflow-y: auto;
-            display: none;
-            z-index: 1000;
-        }
+            .favorite-item img {
+                margin: 0 0 0.5rem;
+            }
 
-        .search-results.active {
-            display: block;
-        }
-
-        .search-result-item {
-            padding: 0.75rem 1rem;
-            border-bottom: 1px solid #eee;
-            cursor: pointer;
-        }
-
-        .search-result-item:hover {
-            background: var(--background-color);
-        }
-
-        .search-result-item:last-child {
-            border-bottom: none;
-        }
-
-        .result-category {
-            font-size: 0.75rem;
-            color: var(--primary-color);
-            margin-bottom: 0.25rem;
-        }
-
-        .result-title {
-            font-weight: 500;
-            margin-bottom: 0.25rem;
-        }
-
-        .result-description {
-            font-size: 0.875rem;
-            color: #666;
-        }
-
-        /* お気に入り機能のスタイル */
-        .favorite-btn {
-            background: none;
-            border: none;
-            color: #ccc;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: color 0.3s;
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            z-index: 1;
-        }
-
-        .favorite-btn.active {
-            color: #e74c3c;
-        }
-
-        .bird-card, .breeder-card {
-            position: relative;
-        }
-
-        /* お気に入りパネル */
-        .favorites-panel {
-            position: fixed;
-            right: -300px;
-            top: 0;
-            width: 300px;
-            height: 100vh;
-            background: white;
-            box-shadow: -2px 0 5px rgba(0,0,0,0.1);
-            transition: right 0.3s;
-            z-index: 1000;
-            padding: 1rem;
-            overflow-y: auto;
-        }
-
-        .favorites-panel.active {
-            right: 0;
-        }
-
-        .favorites-toggle {
-            position: fixed;
-            right: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            background: var(--primary-color);
-            color: white;
-            padding: 0.5rem;
-            border-radius: 4px;
-            cursor: pointer;
-            z-index: 999;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .favorites-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #eee;
-        }
-
-        .favorites-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #666;
-        }
-
-        .favorites-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .favorite-item {
-            display: flex;
-            align-items: center;
-            padding: 0.75rem;
-            border-bottom: 1px solid #eee;
-        }
-
-        .favorite-item img {
-            width: 50px;
-            height: 50px;
-            object-fit: cover;
-            border-radius: 4px;
-            margin-right: 1rem;
-        }
-
-        .favorite-item-info {
-            flex-grow: 1;
-        }
-
-        .favorite-item-info h4 {
-            margin: 0 0 0.25rem;
-        }
-
-        .favorite-item-info p {
-            margin: 0;
-            font-size: 0.875rem;
-            color: #666;
-        }
-
-        .favorite-remove {
-            background: none;
-            border: none;
-            color: #e74c3c;
-            cursor: pointer;
-            padding: 0.5rem;
+            .favorite-remove {
+                margin-top: 0.5rem;
+            }
         }
     </style>
 </head>
@@ -680,6 +583,9 @@
     <nav class="nav">
         <div class="nav-container">
             <a href="#" class="nav-logo">トリっぷ</a>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
             <div class="nav-links">
                 <form class="search-form" onsubmit="return handleSearch(event)">
                     <input type="search" class="search-input" placeholder="鳥種やブリーダーを検索..." 
@@ -1077,6 +983,28 @@
 
             container.innerHTML = html;
         }
+
+        // モバイルメニュー
+        function toggleMobileMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+
+        // モバイルメニューのリンクをクリックしたらメニューを閉じる
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.nav-links').classList.remove('active');
+                }
+            });
+        });
+
+        // ウィンドウリサイズ時にモバイルメニューを初期状態に戻す
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                document.querySelector('.nav-links').classList.remove('active');
+            }
+        });
 
         // 初期化
         document.addEventListener('DOMContentLoaded', function() {
