@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://images.unsplash.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="../../css/comments.css">
+    <link rel="stylesheet" href="../../css/favorites.css">
     <style>
         /* 既存のスタイルを継承 */
         :root {
@@ -265,6 +266,7 @@
                         <i class="fab fa-line"></i>
                         LINE
                     </button>
+                    <div id="favoriteContainer"></div>
                 </div>
             </footer>
         </article>
@@ -284,10 +286,19 @@
     </div>
 
     <script src="../../js/comments.js"></script>
+    <script src="../../js/favorites.js"></script>
     <script>
         // コメントシステムの初期化
         const commentSystem = new CommentSystem();
         const articleId = 'bird-selection-guide';
+
+        // お気に入りシステムの初期化
+        const favoriteSystem = new FavoriteSystem();
+        const favoriteButton = favoriteSystem.createFavoriteButton('articles', articleId, {
+            title: 'はじめての鳥選び - 種類別の特徴と相性',
+            category: '初心者ガイド'
+        });
+        document.getElementById('favoriteContainer').appendChild(favoriteButton);
 
         // コメントフォームの処理
         document.getElementById('commentForm').addEventListener('submit', (e) => {
