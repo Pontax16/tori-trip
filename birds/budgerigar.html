@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>セキセイインコ - トリっぷ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --text-color: #2c3e50;
+            --background-color: #f5f5f5;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .nav {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 80px auto 0;
+            padding: 2rem;
+        }
+
+        /* 鳥の詳細ページのスタイル */
+        .bird-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .bird-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .bird-info h1 {
+            margin-top: 0;
+            color: var(--text-color);
+        }
+
+        .bird-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .stat-item {
+            background: var(--background-color);
+            padding: 1rem;
+            border-radius: 4px;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+
+        .bird-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .main-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section h2 {
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        .section ul {
+            padding-left: 1.5rem;
+        }
+
+        .section li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            align-self: start;
+            position: sticky;
+            top: 100px;
+        }
+
+        .care-tips {
+            margin-bottom: 2rem;
+        }
+
+        .tip-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .tip-icon {
+            color: var(--primary-color);
+            margin-right: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .recommended-items h3 {
+            margin-top: 0;
+        }
+
+        .item-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .item-list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .item-list i {
+            color: var(--primary-color);
+            margin-right: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .bird-header {
+                grid-template-columns: 1fr;
+            }
+
+            .bird-content {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">トリっぷ</a>
+            <div class="nav-links">
+                <a href="../index.html#birds" class="nav-link">鳥たち</a>
+                <a href="../index.html#breeders" class="nav-link">ブリーダー</a>
+                <a href="../index.html#contact" class="nav-link">お問い合わせ</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="bird-header">
+            <img src="https://images.unsplash.com/photo-1552728089-57bdde30beb3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80" alt="セキセイインコ" class="bird-image">
+            <div class="bird-info">
+                <h1>セキセイインコ</h1>
+                <p>初心者向けの小型インコ。賢く愛らしい性格で、人になつきやすい品種です。様々な色変わりがあり、鳴き声も心地よく、言葉を覚えることもできます。</p>
+                <div class="bird-stats">
+                    <div class="stat-item">
+                        <div class="stat-label">寿命</div>
+                        <div class="stat-value">7-10年</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">体長</div>
+                        <div class="stat-value">18-20cm</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">難易度</div>
+                        <div class="stat-value">初級</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">価格帯</div>
+                        <div class="stat-value">3-5万円</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bird-content">
+            <div class="main-content">
+                <section class="section">
+                    <h2>性格・特徴</h2>
+                    <ul>
+                        <li>活発で好奇心旺盛な性格</li>
+                        <li>人懐っこく、飼い主との信頼関係を築きやすい</li>
+                        <li>賢く、簡単な言葉を覚えることができる</li>
+                        <li>様々な色変わりがあり、美しい羽色が特徴</li>
+                        <li>比較的静かで、アパートでも飼育しやすい</li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>飼育環境</h2>
+                    <ul>
+                        <li>ケージは横幅60cm以上、高さ45cm以上を推奨</li>
+                        <li>室温は20-25度が適温</li>
+                        <li>直射日光や風通しの悪い場所は避ける</li>
+                        <li>おもちゃや止まり木を複数設置する</li>
+                        <li>清潔な環境を保つため、毎日の掃除が必要</li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>食事</h2>
+                    <ul>
+                        <li>主食：シード（ヒエ、カナリーシード、アワなど）</li>
+                        <li>野菜：ホウレンソウ、ブロッコリー、人参など</li>
+                        <li>果物：リンゴ、バナナ（適度に）</li>
+                        <li>補助食：ビタミン、ミネラルのサプリメント</li>
+                        <li>新鮮な水を毎日用意する</li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>健康管理</h2>
+                    <ul>
+                        <li>定期的な健康診断を推奨（年1-2回）</li>
+                        <li>爪切り、くちばしのケアが必要</li>
+                        <li>換羽期（年2回程度）は特に注意が必要</li>
+                        <li>病気の早期発見のため、毎日の観察が重要</li>
+                    </ul>
+                </section>
+            </div>
+
+            <div class="sidebar">
+                <div class="care-tips">
+                    <h3>お世話のポイント</h3>
+                    <div class="tip-item">
+                        <i class="fas fa-clock tip-icon"></i>
+                        <div>
+                            <strong>毎日の世話時間</strong>
+                            <p>餌・水の交換、掃除で15-20分</p>
+                        </div>
+                    </div>
+                    <div class="tip-item">
+                        <i class="fas fa-heart tip-icon"></i>
+                        <div>
+                            <strong>コミュニケーション</strong>
+                            <p>1日30分以上の交流を推奨</p>
+                        </div>
+                    </div>
+                    <div class="tip-item">
+                        <i class="fas fa-home tip-icon"></i>
+                        <div>
+                            <strong>適正な環境</strong>
+                            <p>静かで安定した環境が望ましい</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recommended-items">
+                    <h3>準備するもの</h3>
+                    <ul class="item-list">
+                        <li><i class="fas fa-check"></i>飼育ケージ（60cm以上）</li>
+                        <li><i class="fas fa-check"></i>食器・水入れ（2セット）</li>
+                        <li><i class="fas fa-check"></i>止まり木（数種類の太さ）</li>
+                        <li><i class="fas fa-check"></i>シード・補助食</li>
+                        <li><i class="fas fa-check"></i>おもちゃ類</li>
+                        <li><i class="fas fa-check"></i>砂底紙</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
