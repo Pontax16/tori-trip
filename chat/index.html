@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>チャット | トリっぷ</title>
+    <meta name="description" content="トリっぷのチャット機能で他のユーザーと交流しましょう。">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="../css/search.css">
+    <link rel="stylesheet" href="../css/auth.css">
+    <link rel="stylesheet" href="../css/notifications.css">
+    <link rel="stylesheet" href="../css/chat.css">
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-content">
+            <a href="/" class="logo">トリっぷ</a>
+            <div class="nav-links">
+                <button class="search-trigger" onclick="searchSystem.toggleSearch(true)">
+                    <i class="fas fa-search"></i>
+                    検索
+                </button>
+                <a href="/birds">鳥を探す</a>
+                <a href="/breeders">ブリーダー</a>
+                <a href="/blog">ブログ</a>
+                <a href="/community">コミュニティ</a>
+                <div class="auth-wrapper">
+                    <button class="auth-button" onclick="authSystem.toggleAuth(true)">ログイン</button>
+                    <div class="user-menu">
+                        <a href="/profile" class="user-menu-item">
+                            <i class="fas fa-user"></i>
+                            プロフィール
+                        </a>
+                        <a href="/favorites" class="user-menu-item">
+                            <i class="fas fa-heart"></i>
+                            お気に入り
+                        </a>
+                        <a href="/settings" class="user-menu-item">
+                            <i class="fas fa-cog"></i>
+                            設定
+                        </a>
+                        <button class="user-menu-item" onclick="authSystem.logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            ログアウト
+                        </button>
+                    </div>
+                </div>
+                <button class="notification-trigger" onclick="notificationSystem.toggleNotifications()">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="chat-container">
+        <div class="chat-sidebar">
+            <div class="chat-search">
+                <input type="text" placeholder="ユーザーを検索" id="userSearch">
+                <button class="new-chat-button" onclick="chatSystem.openNewChatModal()">
+                    <i class="fas fa-plus"></i>
+                    新規チャット
+                </button>
+            </div>
+            <div class="chat-list"></div>
+        </div>
+
+        <div class="chat-main">
+            <div class="chat-header">
+                <div class="chat-info">
+                    <img src="../images/default-avatar.png" alt="チャット相手" id="chatAvatar">
+                    <div class="chat-details">
+                        <h2 id="chatName">チャット相手を選択</h2>
+                        <span id="chatStatus">オフライン</span>
+                    </div>
+                </div>
+                <div class="chat-actions">
+                    <button class="chat-action-button" onclick="chatSystem.toggleInfo()">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                    <button class="chat-action-button" onclick="chatSystem.toggleMedia()">
+                        <i class="fas fa-image"></i>
+                    </button>
+                    <button class="chat-action-button" onclick="chatSystem.toggleSettings()">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="chat-messages" id="chatMessages"></div>
+
+            <div class="chat-input">
+                <button class="chat-tool-button" onclick="chatSystem.toggleEmoji()">
+                    <i class="far fa-smile"></i>
+                </button>
+                <div class="message-input-wrapper">
+                    <textarea id="messageInput" placeholder="メッセージを入力" rows="1"></textarea>
+                    <button class="chat-tool-button" onclick="chatSystem.toggleAttachment()">
+                        <i class="fas fa-paperclip"></i>
+                    </button>
+                </div>
+                <button class="send-button" onclick="chatSystem.sendMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="chat-info-panel">
+            <div class="info-section">
+                <h3>共有メディア</h3>
+                <div class="shared-media-grid"></div>
+            </div>
+            <div class="info-section">
+                <h3>共有リンク</h3>
+                <div class="shared-links-list"></div>
+            </div>
+            <div class="info-section">
+                <h3>チャット設定</h3>
+                <div class="chat-settings">
+                    <label>
+                        <input type="checkbox" id="muteNotifications">
+                        通知をミュート
+                    </label>
+                    <label>
+                        <input type="checkbox" id="blockUser">
+                        ユーザーをブロック
+                    </label>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-storage-compat.js"></script>
+    
+    <script src="../js/search.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/notifications.js"></script>
+    <script src="../js/chat.js"></script>
+    <script>
+        const searchSystem = new SearchSystem();
+        const authSystem = new AuthSystem();
+        const notificationSystem = new NotificationSystem();
+        const chatSystem = new ChatSystem();
+
+        // 認証状態の変更を監視
+        document.addEventListener('authStateChanged', async (e) => {
+            const user = e.detail.user;
+            if (user) {
+                await chatSystem.initialize(user);
+            } else {
+                window.location.href = '/';
+            }
+        });
+
+        // メッセージ入力の自動リサイズ
+        const messageInput = document.getElementById('messageInput');
+        messageInput.addEventListener('input', () => {
+            messageInput.style.height = 'auto';
+            messageInput.style.height = messageInput.scrollHeight + 'px';
+        });
+
+        // エンターキーでメッセージを送信
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                chatSystem.sendMessage();
+            }
+        });
+
+        // ユーザー検索
+        const userSearch = document.getElementById('userSearch');
+        userSearch.addEventListener('input', () => {
+            chatSystem.searchUsers(userSearch.value);
+        });
+    </script>
+</body>
+</html>
