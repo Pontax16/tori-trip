@@ -458,6 +458,95 @@
                 font-size: 2rem;
             }
         }
+
+        /* 検索フォームのスタイル */
+        .search-form {
+            position: relative;
+            margin-left: auto;
+            margin-right: 2rem;
+        }
+
+        .search-input {
+            padding: 0.5rem 1rem;
+            padding-right: 2.5rem;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            width: 200px;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            width: 300px;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        .search-button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .search-button:hover {
+            color: var(--primary-color);
+        }
+
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-top: 0.5rem;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+            z-index: 1000;
+        }
+
+        .search-results.active {
+            display: block;
+        }
+
+        .search-result-item {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+
+        .search-result-item:hover {
+            background: var(--background-color);
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-category {
+            font-size: 0.75rem;
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .result-title {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .result-description {
+            font-size: 0.875rem;
+            color: #666;
+        }
     </style>
 </head>
 <body>
@@ -465,6 +554,14 @@
         <div class="nav-container">
             <a href="#" class="nav-logo">トリっぷ</a>
             <div class="nav-links">
+                <form class="search-form" onsubmit="return handleSearch(event)">
+                    <input type="search" class="search-input" placeholder="鳥種やブリーダーを検索..." 
+                           aria-label="鳥種やブリーダーを検索" oninput="handleSearchInput(event)">
+                    <button type="submit" class="search-button" aria-label="検索">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <div class="search-results" id="searchResults"></div>
+                </form>
                 <a href="#features" class="nav-link">特徴</a>
                 <a href="#birds" class="nav-link">鳥たち</a>
                 <a href="#contact" class="nav-link">お問い合わせ</a>
@@ -820,6 +917,79 @@
                     item.classList.add('active');
                 }
             });
+        });
+
+        // 検索機能
+        const searchData = {
+            birds: [
+                { category: '鳥種', title: 'セキセイインコ', description: '初心者向け！賢く愛らしい性格で、人になつきやすい品種です。' },
+                { category: '鳥種', title: 'オカメインコ', description: '穏やかで優しい性格。飼いやすく、長く一緒に暮らせる鳥です。' },
+                { category: '鳥種', title: 'コザクラインコ', description: '活発で好奇心旺盛。小型で扱いやすく、表情豊かな鳥です。' },
+                { category: '鳥種', title: '文鳥', description: '温厚な性格で初心者向け。さえずりが美しい小型の鳥です。' }
+            ],
+            breeders: [
+                { category: 'ブリーダー', title: '田中 愛鳥', description: 'セキセイインコ、オカメインコの専門家。経験年数15年。' },
+                { category: 'ブリーダー', title: '鈴木 飛翔', description: 'コザクラインコ、ボタンインコの専門家。経験年数20年。' },
+                { category: 'ブリーダー', title: '佐藤 羽花', description: 'オカメインコ、文鳥の専門家。経験年数12年。' }
+            ]
+        };
+
+        function handleSearchInput(event) {
+            const searchTerm = event.target.value.toLowerCase();
+            const resultsContainer = document.getElementById('searchResults');
+            
+            if (searchTerm.length < 2) {
+                resultsContainer.classList.remove('active');
+                return;
+            }
+
+            const results = [...searchData.birds, ...searchData.breeders].filter(item => 
+                item.title.toLowerCase().includes(searchTerm) || 
+                item.description.toLowerCase().includes(searchTerm)
+            );
+
+            if (results.length > 0) {
+                resultsContainer.innerHTML = results.map(result => `
+                    <div class="search-result-item" onclick="handleResultClick('${result.title}')">
+                        <div class="result-category">${result.category}</div>
+                        <div class="result-title">${result.title}</div>
+                        <div class="result-description">${result.description}</div>
+                    </div>
+                `).join('');
+                resultsContainer.classList.add('active');
+            } else {
+                resultsContainer.innerHTML = `
+                    <div class="search-result-item">
+                        <div class="result-description">検索結果が見つかりませんでした</div>
+                    </div>
+                `;
+                resultsContainer.classList.add('active');
+            }
+        }
+
+        function handleResultClick(title) {
+            // 将来的に詳細ページへの遷移を実装
+            console.log(`Selected: ${title}`);
+            document.getElementById('searchResults').classList.remove('active');
+        }
+
+        function handleSearch(event) {
+            event.preventDefault();
+            const searchTerm = event.target.querySelector('.search-input').value;
+            // 将来的に検索結果ページへの遷移を実装
+            console.log(`Search submitted: ${searchTerm}`);
+            return false;
+        }
+
+        // クリックイベントの監視
+        document.addEventListener('click', function(event) {
+            const searchResults = document.getElementById('searchResults');
+            const searchForm = document.querySelector('.search-form');
+            
+            // 検索フォーム外をクリックした場合、結果を非表示
+            if (!searchForm.contains(event.target)) {
+                searchResults.classList.remove('active');
+            }
         });
     </script>
 </body>
