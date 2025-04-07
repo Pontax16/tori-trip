@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="preconnect" href="https://images.unsplash.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="../css/comments.css">
     <style>
         :root {
             --primary-color: #3498db;
@@ -111,6 +112,16 @@
             font-size: 1.25rem;
             margin: 0 0 1rem;
             color: var(--text-color);
+        }
+
+        .blog-title a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .blog-title a:hover {
+            color: var(--primary-color);
         }
 
         .blog-excerpt {
@@ -319,55 +330,75 @@
     <div class="container">
         <main class="blog-grid">
             <article class="blog-card">
-                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="https://images.unsplash.com/photo-1552728089-57bdde30beb3" alt="初めての鳥選び" class="blog-image lazy" loading="lazy">
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" 
+                     data-src="https://images.unsplash.com/photo-1552728089-57bdde30beb3" 
+                     alt="初めての鳥選び" 
+                     class="blog-image lazy"
+                     loading="lazy">
                 <div class="blog-content">
                     <div class="blog-category">初心者ガイド</div>
-                    <h2 class="blog-title">はじめての鳥選び - 種類別の特徴と相性</h2>
+                    <h2 class="blog-title">
+                        <a href="articles/bird-selection-guide.html">はじめての鳥選び - 種類別の特徴と相性</a>
+                    </h2>
                     <p class="blog-excerpt">
-                        初めて鳥を飼う方に向けて、各種鳥の特徴や性格、飼育の難易度などを詳しく解説します。
-                        あなたのライフスタイルに合った鳥選びをサポートします。
+                        初めて鳥を飼うなら、どの種類を選べばいいのでしょうか？各種の特徴や飼い主との相性について詳しく解説します。
                     </p>
                     <div class="blog-meta">
-                        <i class="far fa-calendar"></i>
-                        <span>2025年4月1日</span>
-                        <i class="far fa-user"></i>
-                        <span>トリっぷ編集部</span>
+                        <span class="blog-date">2025年4月8日</span>
+                        <span class="blog-comments">
+                            <i class="fas fa-comment"></i>
+                            <span class="comment-count" data-article-id="bird-selection-guide">0</span>
+                        </span>
                     </div>
                 </div>
             </article>
 
             <article class="blog-card">
-                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="https://images.unsplash.com/photo-1591198936750-16d8e15edb9e" alt="鳥の健康管理" class="blog-image lazy" loading="lazy">
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" 
+                     data-src="https://images.unsplash.com/photo-1591198936750-16d8e15edb9e" 
+                     alt="鳥の健康管理" 
+                     class="blog-image lazy"
+                     loading="lazy">
                 <div class="blog-content">
                     <div class="blog-category">健康・ケア</div>
-                    <h2 class="blog-title">鳥の健康管理 - 日常のケアと病気の予防</h2>
+                    <h2 class="blog-title">
+                        <a href="articles/bird-health-management.html">鳥の健康管理 - 日常のケアと病気の予防</a>
+                    </h2>
                     <p class="blog-excerpt">
                         鳥の健康を保つための日常的なケアや、よくある病気の症状と予防法について解説します。
                         早期発見と適切なケアで、長く健康に過ごすためのポイントをお伝えします。
                     </p>
                     <div class="blog-meta">
-                        <i class="far fa-calendar"></i>
-                        <span>2025年3月28日</span>
-                        <i class="far fa-user"></i>
-                        <span>獣医師 山田太郎</span>
+                        <span class="blog-date">2025年3月28日</span>
+                        <span class="blog-comments">
+                            <i class="fas fa-comment"></i>
+                            <span class="comment-count" data-article-id="bird-health-management">0</span>
+                        </span>
                     </div>
                 </div>
             </article>
 
             <article class="blog-card">
-                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="https://images.unsplash.com/photo-1557160854-e1e89fdd3286" alt="鳥のおもちゃ作り" class="blog-image lazy" loading="lazy">
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" 
+                     data-src="https://images.unsplash.com/photo-1557160854-e1e89fdd3286" 
+                     alt="鳥のおもちゃ作り" 
+                     class="blog-image lazy"
+                     loading="lazy">
                 <div class="blog-content">
                     <div class="blog-category">DIY・工作</div>
-                    <h2 class="blog-title">手作りおもちゃで鳥と遊ぼう！簡単DIYガイド</h2>
+                    <h2 class="blog-title">
+                        <a href="articles/bird-toy-diy.html">手作りおもちゃで鳥と遊ぼう！簡単DIYガイド</a>
+                    </h2>
                     <p class="blog-excerpt">
                         身近な材料で作れる、鳥のおもちゃの作り方を紹介します。
                         安全な材料の選び方から、鳥が喜ぶ仕掛けまで、詳しく解説します。
                     </p>
                     <div class="blog-meta">
-                        <i class="far fa-calendar"></i>
-                        <span>2025年3月25日</span>
-                        <i class="far fa-user"></i>
-                        <span>クラフター 佐藤花子</span>
+                        <span class="blog-date">2025年3月25日</span>
+                        <span class="blog-comments">
+                            <i class="fas fa-comment"></i>
+                            <span class="comment-count" data-article-id="bird-toy-diy">0</span>
+                        </span>
                     </div>
                 </div>
             </article>
@@ -428,6 +459,7 @@
         </aside>
     </div>
 
+    <script src="../js/comments.js"></script>
     <script>
         // 遅延読み込みの初期化
         document.addEventListener("DOMContentLoaded", function() {
@@ -465,6 +497,23 @@
             window.addEventListener("resize", lazyLoad);
             window.addEventListener("orientationchange", lazyLoad);
             lazyLoad();
+        });
+
+        // コメントシステムの初期化
+        const commentSystem = new CommentSystem();
+
+        // コメント数の更新
+        function updateCommentCounts() {
+            document.querySelectorAll('.comment-count').forEach(counter => {
+                const articleId = counter.dataset.articleId;
+                const comments = commentSystem.getComments(articleId);
+                counter.textContent = comments.length;
+            });
+        }
+
+        // 初期表示時にコメント数を更新
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCommentCounts();
         });
 
         // カテゴリーとタグのキャッシュ
