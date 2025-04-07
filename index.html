@@ -93,6 +93,21 @@
             margin: 0 auto 1.5rem;
         }
 
+        .button {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            border-radius: 4px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
         .features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -313,22 +328,28 @@
             <h2>お問い合わせ</h2>
             <p>ご質問やご相談がございましたら、下記フォームよりお気軽にお問い合わせください。</p>
             
-            <form id="contactForm" onsubmit="return handleSubmit(event)">
+            <form id="contactForm" onsubmit="return handleSubmit(event)" novalidate>
                 <div class="form-group">
                     <label for="name">お名前 *</label>
-                    <input type="text" id="name" name="name" class="form-control" required>
+                    <input type="text" id="name" name="name" class="form-control" required 
+                           oninvalid="this.setCustomValidity('お名前を入力してください')"
+                           oninput="this.setCustomValidity('')">
                     <div class="error-message" id="nameError">お名前を入力してください</div>
                 </div>
 
                 <div class="form-group">
                     <label for="email">メールアドレス *</label>
-                    <input type="email" id="email" name="email" class="form-control" required>
+                    <input type="email" id="email" name="email" class="form-control" required
+                           oninvalid="this.setCustomValidity('有効なメールアドレスを入力してください')"
+                           oninput="this.setCustomValidity('')">
                     <div class="error-message" id="emailError">有効なメールアドレスを入力してください</div>
                 </div>
 
                 <div class="form-group">
                     <label for="subject">お問い合わせ種別 *</label>
-                    <select id="subject" name="subject" class="form-control" required>
+                    <select id="subject" name="subject" class="form-control" required
+                            oninvalid="this.setCustomValidity('お問い合わせ種別を選択してください')"
+                            oninput="this.setCustomValidity('')">
                         <option value="">選択してください</option>
                         <option value="general">一般的なお問い合わせ</option>
                         <option value="breeder">ブリーダー登録について</option>
@@ -340,7 +361,9 @@
 
                 <div class="form-group">
                     <label for="message">お問い合わせ内容 *</label>
-                    <textarea id="message" name="message" class="form-control" required></textarea>
+                    <textarea id="message" name="message" class="form-control" required
+                              oninvalid="this.setCustomValidity('お問い合わせ内容を入力してください')"
+                              oninput="this.setCustomValidity('')"></textarea>
                     <div class="error-message" id="messageError">お問い合わせ内容を入力してください</div>
                 </div>
 
