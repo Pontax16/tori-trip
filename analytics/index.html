@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分析 | トリっぷ</title>
+    <meta name="description" content="トリっぷのユーザー行動とコンテンツの分析データをご覧いただけます。">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.css">
+    <link rel="stylesheet" href="../css/search.css">
+    <link rel="stylesheet" href="../css/auth.css">
+    <link rel="stylesheet" href="../css/notifications.css">
+    <link rel="stylesheet" href="../css/analytics.css">
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-content">
+            <a href="/" class="logo">トリっぷ</a>
+            <div class="nav-links">
+                <button class="search-trigger" onclick="searchSystem.toggleSearch(true)">
+                    <i class="fas fa-search"></i>
+                    検索
+                </button>
+                <a href="/birds">鳥を探す</a>
+                <a href="/breeders">ブリーダー</a>
+                <a href="/blog">ブログ</a>
+                <a href="/community">コミュニティ</a>
+                <div class="auth-wrapper">
+                    <button class="auth-button" onclick="authSystem.toggleAuth(true)">ログイン</button>
+                    <div class="user-menu">
+                        <a href="/profile" class="user-menu-item">
+                            <i class="fas fa-user"></i>
+                            プロフィール
+                        </a>
+                        <a href="/favorites" class="user-menu-item">
+                            <i class="fas fa-heart"></i>
+                            お気に入り
+                        </a>
+                        <a href="/settings" class="user-menu-item">
+                            <i class="fas fa-cog"></i>
+                            設定
+                        </a>
+                        <button class="user-menu-item" onclick="authSystem.logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            ログアウト
+                        </button>
+                    </div>
+                </div>
+                <button class="notification-trigger" onclick="notificationSystem.toggleNotifications()">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="analytics-container">
+        <div class="analytics-header">
+            <h1>分析ダッシュボード</h1>
+            <p>ユーザー行動とコンテンツのパフォーマンスを分析</p>
+        </div>
+
+        <div class="analytics-tabs">
+            <button class="analytics-tab active" onclick="showTab('overview')">概要</button>
+            <button class="analytics-tab" onclick="showTab('content')">コンテンツ</button>
+            <button class="analytics-tab" onclick="showTab('users')">ユーザー</button>
+            <button class="analytics-tab" onclick="showTab('engagement')">エンゲージメント</button>
+        </div>
+
+        <div class="analytics-filters">
+            <button class="analytics-filter active" onclick="updateTimeRange(7)">7日間</button>
+            <button class="analytics-filter" onclick="updateTimeRange(30)">30日間</button>
+            <button class="analytics-filter" onclick="updateTimeRange(90)">90日間</button>
+            <button class="analytics-filter" onclick="updateTimeRange('custom')">カスタム</button>
+        </div>
+
+        <div class="analytics-content active" id="overview">
+            <div class="analytics-grid">
+                <div class="analytics-card">
+                    <div class="analytics-card-header">
+                        <h3 class="analytics-card-title">総ページビュー</h3>
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <p class="analytics-card-value">0</p>
+                    <div class="analytics-card-trend trend-up">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>12.5%</span>
+                    </div>
+                    <canvas class="analytics-chart" id="pageViewsChart"></canvas>
+                </div>
+
+                <div class="analytics-card">
+                    <div class="analytics-card-header">
+                        <h3 class="analytics-card-title">アクティブユーザー</h3>
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <p class="analytics-card-value">0</p>
+                    <div class="analytics-card-trend trend-up">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>8.3%</span>
+                    </div>
+                    <canvas class="analytics-chart" id="activeUsersChart"></canvas>
+                </div>
+
+                <div class="analytics-card">
+                    <div class="analytics-card-header">
+                        <h3 class="analytics-card-title">平均セッション時間</h3>
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <p class="analytics-card-value">0:00</p>
+                    <div class="analytics-card-trend trend-down">
+                        <i class="fas fa-arrow-down"></i>
+                        <span>3.2%</span>
+                    </div>
+                    <canvas class="analytics-chart" id="sessionDurationChart"></canvas>
+                </div>
+
+                <div class="analytics-card">
+                    <div class="analytics-card-header">
+                        <h3 class="analytics-card-title">エンゲージメント率</h3>
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <p class="analytics-card-value">0%</p>
+                    <div class="analytics-card-trend trend-up">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>5.7%</span>
+                    </div>
+                    <canvas class="analytics-chart" id="engagementChart"></canvas>
+                </div>
+            </div>
+
+            <div class="analytics-card">
+                <div class="analytics-card-header">
+                    <h3 class="analytics-card-title">人気コンテンツ</h3>
+                    <button class="analytics-filter" onclick="exportReport()">
+                        <i class="fas fa-download"></i>
+                        レポート出力
+                    </button>
+                </div>
+                <div class="popular-content"></div>
+            </div>
+        </div>
+
+        <div class="analytics-content" id="content">
+            <div class="analytics-grid">
+                <div class="analytics-card">
+                    <div class="analytics-card-header">
+                        <h3 class="analytics-card-title">コンテンツタイプ別閲覧数</h3>
+                    </div>
+                    <canvas class="analytics-chart" id="contentTypeChart"></canvas>
+                </div>
+
+                <div class="analytics-card">
+                    <div class="analytics-card-header">
+                        <h3 class="analytics-card-title">カテゴリー別人気度</h3>
+                    </div>
+                    <canvas class="analytics-chart" id="categoryChart"></canvas>
+                </div>
+            </div>
+
+            <div class="analytics-card">
+                <div class="analytics-card-header">
+                    <h3 class="analytics-card-title">コンテンツパフォーマンス</h3>
+                </div>
+                <table class="analytics-table">
+                    <thead>
+                        <tr>
+                            <th>タイトル</th>
+                            <th>閲覧数</th>
+                            <th>いいね</th>
+                            <th>コメント</th>
+                            <th>シェア</th>
+                            <th>エンゲージメント率</th>
+                        </tr>
+                    </thead>
+                    <tbody id="contentTable"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="analytics-content" id="users">
+            <div class="analytics-grid">
+                <div class="analytics-card">
+                    <div class="analytics-card-header">
+                        <h3 class="analytics-card-title">ユーザー属性</h3>
+                    </div>
+                    <canvas class="analytics-chart" id="userDemographicsChart"></canvas>
+                </div>
+
+                <div class="analytics-card">
+                    <div class="analytics-card-header">
+                        <h3 class="analytics-card-title">アクティブ時間帯</h3>
+                    </div>
+                    <div class="heatmap" id="activityHeatmap"></div>
+                    <div class="heatmap-legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #e5f5e0"></div>
+                            <span>低</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #31a354"></div>
+                            <span>高</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="analytics-card">
+                <div class="analytics-card-header">
+                    <h3 class="analytics-card-title">ユーザー行動パターン</h3>
+                </div>
+                <canvas class="analytics-chart" id="userBehaviorChart"></canvas>
+            </div>
+        </div>
+
+        <div class="analytics-content" id="engagement">
+            <div class="analytics-grid">
+                <div class="analytics-card">
+                    <div class="analytics-card-header">
+                        <h3 class="analytics-card-title">インタラクションタイプ</h3>
+                    </div>
+                    <canvas class="analytics-chart" id="interactionTypeChart"></canvas>
+                </div>
+
+                <div class="analytics-card">
+                    <div class="analytics-card-header">
+                        <h3 class="analytics-card-title">エンゲージメントフロー</h3>
+                    </div>
+                    <canvas class="analytics-chart" id="engagementFlowChart"></canvas>
+                </div>
+            </div>
+
+            <div class="analytics-card">
+                <div class="analytics-card-header">
+                    <h3 class="analytics-card-title">コンバージョンファネル</h3>
+                </div>
+                <canvas class="analytics-chart" id="conversionFunnelChart"></canvas>
+            </div>
+        </div>
+    </main>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-firestore-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+    
+    <script src="../js/search.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/notifications.js"></script>
+    <script src="../js/analytics.js"></script>
+    <script>
+        const searchSystem = new SearchSystem();
+        const authSystem = new AuthSystem();
+        const notificationSystem = new NotificationSystem();
+        const analyticsSystem = new AnalyticsSystem();
+
+        // 認証状態の変更を監視
+        document.addEventListener('authStateChanged', async (e) => {
+            const user = e.detail.user;
+            if (user) {
+                await analyticsSystem.initialize(user);
+                updateDashboard();
+            } else {
+                window.location.href = '/';
+            }
+        });
+
+        // タブの切り替え
+        function showTab(tabId) {
+            document.querySelectorAll('.analytics-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.analytics-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            const selectedTab = document.querySelector(`.analytics-tab[onclick*="${tabId}"]`);
+            const selectedContent = document.getElementById(tabId);
+            
+            if (selectedTab && selectedContent) {
+                selectedTab.classList.add('active');
+                selectedContent.classList.add('active');
+            }
+
+            updateCharts(tabId);
+        }
+
+        // 期間の更新
+        function updateTimeRange(days) {
+            document.querySelectorAll('.analytics-filter').forEach(filter => {
+                filter.classList.remove('active');
+            });
+
+            const selectedFilter = document.querySelector(`.analytics-filter[onclick*="${days}"]`);
+            if (selectedFilter) {
+                selectedFilter.classList.add('active');
+            }
+
+            updateDashboard();
+        }
+
+        // ダッシュボードの更新
+        async function updateDashboard() {
+            const activeTab = document.querySelector('.analytics-tab.active');
+            if (activeTab) {
+                const tabId = activeTab.getAttribute('onclick').match(/'([^']+)'/)[1];
+                await updateCharts(tabId);
+            }
+        }
+
+        // グラフの更新
+        async function updateCharts(tabId) {
+            switch (tabId) {
+                case 'overview':
+                    updateOverviewCharts();
+                    break;
+                case 'content':
+                    updateContentCharts();
+                    break;
+                case 'users':
+                    updateUserCharts();
+                    break;
+                case 'engagement':
+                    updateEngagementCharts();
+                    break;
+            }
+        }
+
+        // 概要グラフの更新
+        async function updateOverviewCharts() {
+            // ページビューグラフ
+            const pageViewsCtx = document.getElementById('pageViewsChart').getContext('2d');
+            new Chart(pageViewsCtx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({length: 7}, (_, i) => {
+                        const d = new Date();
+                        d.setDate(d.getDate() - (6 - i));
+                        return d.toLocaleDateString();
+                    }),
+                    datasets: [{
+                        label: 'ページビュー',
+                        data: [0, 0, 0, 0, 0, 0, 0],
+                        borderColor: '#3b82f6',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+
+            // その他のグラフも同様に更新
+        }
+
+        // コンテンツグラフの更新
+        async function updateContentCharts() {
+            // 実装
+        }
+
+        // ユーザーグラフの更新
+        async function updateUserCharts() {
+            // 実装
+        }
+
+        // エンゲージメントグラフの更新
+        async function updateEngagementCharts() {
+            // 実装
+        }
+
+        // レポートの出力
+        async function exportReport() {
+            const report = await analyticsSystem.generateReport();
+            const blob = new Blob([JSON.stringify(report, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `analytics-report-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
