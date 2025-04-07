@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>トリっぷ - インコ・オウム専門のブリーダーマッチングサイト</title>
     <meta name="description" content="トリっぷは、インコ・オウム専門のブリーダーマッチングサイトです。">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3498db">
+    <link rel="apple-touch-icon" href="/images/icons/icon-192x192.png">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="preconnect" href="https://images.unsplash.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
@@ -446,6 +449,31 @@
             text-align: center;
             font-size: 0.875rem;
             color: #bdc3c7;
+        }
+
+        /* オフライン通知のスタイル */
+        .offline-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 4px;
+            z-index: 9999;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translate(-50%, 100%);
+                opacity: 0;
+            }
+            to {
+                transform: translate(-50%, 0);
+                opacity: 1;
+            }
         }
 
         /* レスポンシブ改善 */
@@ -911,6 +939,40 @@
     </footer>
 
     <script>
+        // Service Workerの登録
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+
+        // オフラインステータスの監視
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+
+        function updateOnlineStatus() {
+            const status = navigator.onLine ? 'online' : 'offline';
+            if (!navigator.onLine) {
+                showOfflineNotification();
+            }
+        }
+
+        function showOfflineNotification() {
+            const notification = document.createElement('div');
+            notification.className = 'offline-notification';
+            notification.textContent = 'オフラインモードです。一部の機能が制限される場合があります。';
+            document.body.appendChild(notification);
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
         // 遅延読み込みの初期化
         document.addEventListener("DOMContentLoaded", function() {
             let lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));
