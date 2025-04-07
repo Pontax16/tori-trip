@@ -1,0 +1,232 @@
+.social-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.social-settings {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.social-header {
+    padding: 2rem;
+    background: linear-gradient(120deg, var(--primary-color), var(--accent-color));
+    color: white;
+}
+
+.social-header h2 {
+    margin: 0 0 0.5rem;
+    font-size: 1.5rem;
+}
+
+.social-header p {
+    margin: 0;
+    opacity: 0.9;
+}
+
+.social-connections {
+    padding: 2rem;
+}
+
+.connection-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem;
+    border-radius: 8px;
+    background: #f8f9fa;
+    margin-bottom: 1rem;
+    transition: all 0.3s;
+}
+
+.connection-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.connection-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.connection-info i {
+    font-size: 2rem;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: white;
+}
+
+.connection-item[data-provider="twitter"] i {
+    background: #1DA1F2;
+}
+
+.connection-item[data-provider="facebook"] i {
+    background: #4267B2;
+}
+
+.connection-item[data-provider="instagram"] i {
+    background: #E1306C;
+}
+
+.connection-details h3 {
+    margin: 0 0 0.25rem;
+    color: var(--text-color);
+}
+
+.connection-details p {
+    margin: 0;
+    color: #666;
+    font-size: 0.875rem;
+}
+
+.connect-button {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    transition: all 0.3s;
+}
+
+.connect-button:hover {
+    background: var(--primary-color-dark);
+    transform: translateY(-1px);
+}
+
+.connect-button.connected {
+    background: #dc3545;
+}
+
+.connect-button.connected:hover {
+    background: #c82333;
+}
+
+.social-settings-section {
+    padding: 2rem;
+    border-top: 1px solid #eee;
+}
+
+.social-settings-section h3 {
+    margin: 0 0 1rem;
+    color: var(--text-color);
+}
+
+.setting-item {
+    margin-bottom: 1rem;
+}
+
+.setting-item label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+.setting-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--primary-color);
+    border-radius: 4px;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s;
+}
+
+.setting-item input[type="checkbox"]:checked {
+    background: var(--primary-color);
+}
+
+.setting-item input[type="checkbox"]:checked::after {
+    content: '\f00c';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+}
+
+.social-toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    transform: translateX(120%);
+    transition: transform 0.3s;
+    z-index: 1000;
+}
+
+.social-toast.visible {
+    transform: translateX(0);
+}
+
+.social-toast.success {
+    border-left: 4px solid #28a745;
+}
+
+.social-toast.success i {
+    color: #28a745;
+}
+
+.social-toast.error {
+    border-left: 4px solid #dc3545;
+}
+
+.social-toast.error i {
+    color: #dc3545;
+}
+
+.social-toast i {
+    font-size: 1.25rem;
+}
+
+@media (max-width: 768px) {
+    .social-container {
+        padding: 1rem;
+    }
+
+    .connection-item {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .connection-info {
+        flex-direction: column;
+    }
+
+    .connect-button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .social-toast {
+        width: calc(100% - 40px);
+        left: 20px;
+        right: 20px;
+    }
+}

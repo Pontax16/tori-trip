@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../css/auth.css">
     <link rel="stylesheet" href="../css/notifications.css">
     <link rel="stylesheet" href="../css/profile.css">
+    <link rel="stylesheet" href="../css/social.css">
 </head>
 <body>
     <nav class="main-nav">
@@ -100,6 +101,7 @@
                 <button class="tab-button" data-tab="articles">記事</button>
                 <button class="tab-button" data-tab="comments">コメント</button>
                 <button class="tab-button" data-tab="favorites">お気に入り</button>
+                <button class="tab-button" data-tab="social">SNS連携</button>
             </div>
 
             <div class="tab-content active" id="activitiesTab">
@@ -117,6 +119,10 @@
             <div class="tab-content" id="favoritesTab">
                 <div class="favorites-grid"></div>
             </div>
+
+            <div class="tab-content" id="socialTab">
+                <div class="social-container"></div>
+            </div>
         </div>
     </main>
 
@@ -130,11 +136,13 @@
     <script src="../js/auth.js"></script>
     <script src="../js/notifications.js"></script>
     <script src="../js/profile.js"></script>
+    <script src="../js/social.js"></script>
     <script>
         const searchSystem = new SearchSystem();
         const authSystem = new AuthSystem();
         const notificationSystem = new NotificationSystem();
         const profileSystem = new ProfileSystem();
+        const socialSystem = new SocialSystem();
 
         // 認証状態の変更を監視
         document.addEventListener('authStateChanged', async (e) => {
