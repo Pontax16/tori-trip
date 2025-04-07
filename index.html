@@ -248,6 +248,56 @@
             margin-top: 2rem;
         }
 
+        /* FAQセクションのスタイル */
+        .faq {
+            background: white;
+            padding: 3rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin: 3rem 0;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid #eee;
+            margin-bottom: 1rem;
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .faq-question:hover {
+            color: var(--primary-color);
+        }
+
+        .faq-question i {
+            transition: transform 0.3s;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 1rem;
+            opacity: 0;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            opacity: 1;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
@@ -272,6 +322,7 @@
                 <a href="#birds" class="nav-link">鳥たち</a>
                 <a href="#contact" class="nav-link">お問い合わせ</a>
                 <a href="#register" class="nav-link">ブリーダー登録</a>
+                <a href="#faq" class="nav-link">よくある質問</a>
             </div>
         </div>
     </nav>
@@ -376,6 +427,62 @@
             </div>
         </section>
 
+        <!-- FAQセクション -->
+        <section id="faq" class="faq">
+            <h2>よくある質問</h2>
+            <div class="faq-items">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>鳥を購入するまでの流れを教えてください</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>1. お気に入りの鳥を見つけたら、お問い合わせフォームより連絡<br>
+                        2. ブリーダーとの面談日程を調整<br>
+                        3. 実際に鳥と対面し、性格や健康状態を確認<br>
+                        4. 購入を決定された場合、必要書類の記入と料金のお支払い<br>
+                        5. 鳥のお引き渡し</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>初めて鳥を飼うのですが大丈夫でしょうか？</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>はい、大丈夫です。経験豊富なブリーダーが、飼育方法や必要な準備についてしっかりとアドバイスいたします。また、お迎え後もサポート体制が整っていますので、安心して育てていただけます。</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>健康管理はどのようにされていますか？</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>すべての鳥は定期的に獣医師による健康診断を受けています。また、ブリーダーによる日々の健康観察も徹底して行われています。健康状態や予防接種の記録は、お引き渡し時にすべて開示いたします。</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>アフターサポートはありますか？</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>はい、ございます。お迎え後も、育て方や健康管理についてのご相談を随時承っております。また、定期的な健康診断の案内や、飼育に関する情報提供も行っています。</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>返品や交換は可能ですか？</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>生き物ですので、原則として返品や交換は承っておりません。そのため、お迎えの前に十分な時間をかけて、鳥との相性や飼育環境についてご確認いただくようお願いしております。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section id="register" class="cta">
             <h2>ブリーダーの方へ</h2>
             <p>トリっぷでは、信頼できるブリーダーを随時募集しています。</p>
@@ -439,6 +546,24 @@
                 
                 if (this.value.trim()) {
                     errorElement.style.display = "none";
+                }
+            });
+        });
+
+        // FAQのアコーディオン機能
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const isActive = item.classList.contains('active');
+                
+                // 他のアクティブな項目を閉じる
+                document.querySelectorAll('.faq-item').forEach(faqItem => {
+                    faqItem.classList.remove('active');
+                });
+                
+                // クリックされた項目を開く（既に開いている場合は閉じる）
+                if (!isActive) {
+                    item.classList.add('active');
                 }
             });
         });
