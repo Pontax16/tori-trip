@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ブリーダー検索 | トリっぷ</title>
+    <meta name="description" content="トリっぷで信頼できるブリーダーを見つけましょう。">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="../css/search.css">
+    <link rel="stylesheet" href="../css/auth.css">
+    <link rel="stylesheet" href="../css/notifications.css">
+    <link rel="stylesheet" href="../css/breeder-search.css">
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-content">
+            <a href="/" class="logo">トリっぷ</a>
+            <div class="nav-links">
+                <button class="search-trigger" onclick="searchSystem.toggleSearch(true)">
+                    <i class="fas fa-search"></i>
+                    検索
+                </button>
+                <a href="/birds">鳥を探す</a>
+                <a href="/breeders" class="active">ブリーダー</a>
+                <a href="/blog">ブログ</a>
+                <a href="/community">コミュニティ</a>
+                <div class="auth-wrapper">
+                    <button class="auth-button" onclick="authSystem.toggleAuth(true)">ログイン</button>
+                    <div class="user-menu">
+                        <a href="/profile" class="user-menu-item">
+                            <i class="fas fa-user"></i>
+                            プロフィール
+                        </a>
+                        <a href="/favorites" class="user-menu-item">
+                            <i class="fas fa-heart"></i>
+                            お気に入り
+                        </a>
+                        <a href="/settings" class="user-menu-item">
+                            <i class="fas fa-cog"></i>
+                            設定
+                        </a>
+                        <button class="user-menu-item" onclick="authSystem.logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            ログアウト
+                        </button>
+                    </div>
+                </div>
+                <button class="notification-trigger" onclick="notificationSystem.toggleNotifications()">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="search-container">
+        <div class="search-header">
+            <h1>ブリーダーを探す</h1>
+            <p>あなたの希望に合った信頼できるブリーダーを見つけましょう。</p>
+        </div>
+
+        <div class="search-grid">
+            <aside class="search-filters">
+                <div class="filter-section">
+                    <h3>鳥種</h3>
+                    <div class="species-filter-group">
+                        <label class="species-filter-item">
+                            <input type="checkbox" class="species-filter" value="セキセイインコ">
+                            セキセイインコ
+                        </label>
+                        <label class="species-filter-item">
+                            <input type="checkbox" class="species-filter" value="オカメインコ">
+                            オカメインコ
+                        </label>
+                        <label class="species-filter-item">
+                            <input type="checkbox" class="species-filter" value="文鳥">
+                            文鳥
+                        </label>
+                        <label class="species-filter-item">
+                            <input type="checkbox" class="species-filter" value="コザクラインコ">
+                            コザクラインコ
+                        </label>
+                        <label class="species-filter-item">
+                            <input type="checkbox" class="species-filter" value="ボタンインコ">
+                            ボタンインコ
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>地域</h3>
+                    <div class="location-filter">
+                        <select id="locationFilter">
+                            <option value="">全国</option>
+                            <option value="北海道">北海道</option>
+                            <option value="東北">東北</option>
+                            <option value="関東">関東</option>
+                            <option value="中部">中部</option>
+                            <option value="近畿">近畿</option>
+                            <option value="中国">中国</option>
+                            <option value="四国">四国</option>
+                            <option value="九州">九州</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>評価</h3>
+                    <div class="range-filter">
+                        <input type="range" id="ratingFilter" min="0" max="5" step="0.5" value="0" class="range-input">
+                        <span class="range-value">0以上</span>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>価格帯</h3>
+                    <div class="price-filter">
+                        <input type="number" id="priceMinFilter" placeholder="最低価格" class="price-input">
+                        <input type="number" id="priceMaxFilter" placeholder="最高価格" class="price-input">
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>経験年数</h3>
+                    <div class="range-filter">
+                        <input type="range" id="experienceFilter" min="0" max="50" step="1" value="0" class="range-input">
+                        <span class="range-value">0年以上</span>
+                    </div>
+                </div>
+            </aside>
+
+            <div class="breeder-results"></div>
+        </div>
+    </main>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-firestore-compat.js"></script>
+    
+    <script src="../js/search.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/notifications.js"></script>
+    <script src="../js/chat.js"></script>
+    <script src="../js/breeder-search.js"></script>
+    <script>
+        const searchSystem = new SearchSystem();
+        const authSystem = new AuthSystem();
+        const notificationSystem = new NotificationSystem();
+        const chatSystem = new ChatSystem();
+        const breederSearchSystem = new BreederSearchSystem();
+
+        // 認証状態の変更を監視
+        document.addEventListener('authStateChanged', async (e) => {
+            const user = e.detail.user;
+            if (user) {
+                await breederSearchSystem.initialize(user);
+            }
+        });
+
+        // レンジフィルターの値表示を更新
+        document.getElementById('ratingFilter').addEventListener('input', (e) => {
+            const value = e.target.value;
+            e.target.nextElementSibling.textContent = value > 0 ? `${value}以上` : '指定なし';
+        });
+
+        document.getElementById('experienceFilter').addEventListener('input', (e) => {
+            const value = e.target.value;
+            e.target.nextElementSibling.textContent = value > 0 ? `${value}年以上` : '指定なし';
+        });
+    </script>
+</body>
+</html>
