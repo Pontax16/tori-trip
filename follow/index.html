@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>フォロー | トリっぷ</title>
+    <meta name="description" content="トリっぷのフォロー機能で他のユーザーとつながりましょう。">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="../css/search.css">
+    <link rel="stylesheet" href="../css/auth.css">
+    <link rel="stylesheet" href="../css/notifications.css">
+    <link rel="stylesheet" href="../css/follow.css">
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-content">
+            <a href="/" class="logo">トリっぷ</a>
+            <div class="nav-links">
+                <button class="search-trigger" onclick="searchSystem.toggleSearch(true)">
+                    <i class="fas fa-search"></i>
+                    検索
+                </button>
+                <a href="/birds">鳥を探す</a>
+                <a href="/breeders">ブリーダー</a>
+                <a href="/blog">ブログ</a>
+                <a href="/community">コミュニティ</a>
+                <div class="auth-wrapper">
+                    <button class="auth-button" onclick="authSystem.toggleAuth(true)">ログイン</button>
+                    <div class="user-menu">
+                        <a href="/profile" class="user-menu-item">
+                            <i class="fas fa-user"></i>
+                            プロフィール
+                        </a>
+                        <a href="/favorites" class="user-menu-item">
+                            <i class="fas fa-heart"></i>
+                            お気に入り
+                        </a>
+                        <a href="/settings" class="user-menu-item">
+                            <i class="fas fa-cog"></i>
+                            設定
+                        </a>
+                        <button class="user-menu-item" onclick="authSystem.logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            ログアウト
+                        </button>
+                    </div>
+                </div>
+                <button class="notification-trigger" onclick="notificationSystem.toggleNotifications()">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="follow-tabs">
+            <button class="follow-tab active" onclick="showTab('followers')">
+                フォロワー
+            </button>
+            <button class="follow-tab" onclick="showTab('following')">
+                フォロー中
+            </button>
+        </div>
+
+        <div class="follow-content active" id="followers">
+            <div class="followers-list"></div>
+        </div>
+
+        <div class="follow-content" id="following">
+            <div class="following-list"></div>
+        </div>
+
+        <h2 class="suggestions-header">おすすめのユーザー</h2>
+        <div class="suggestions-list"></div>
+    </main>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-database-compat.js"></script>
+    
+    <script src="../js/search.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/notifications.js"></script>
+    <script src="../js/chat.js"></script>
+    <script src="../js/follow.js"></script>
+    <script>
+        const searchSystem = new SearchSystem();
+        const authSystem = new AuthSystem();
+        const notificationSystem = new NotificationSystem();
+        const chatSystem = new ChatSystem();
+        const followSystem = new FollowSystem();
+
+        // 認証状態の変更を監視
+        document.addEventListener('authStateChanged', async (e) => {
+            const user = e.detail.user;
+            if (user) {
+                await followSystem.initialize(user);
+            } else {
+                window.location.href = '/';
+            }
+        });
+
+        // タブの切り替え
+        function showTab(tabId) {
+            document.querySelectorAll('.follow-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.follow-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            const selectedTab = document.querySelector(`.follow-tab[onclick*="${tabId}"]`);
+            const selectedContent = document.getElementById(tabId);
+            
+            if (selectedTab && selectedContent) {
+                selectedTab.classList.add('active');
+                selectedContent.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
